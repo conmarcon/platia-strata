@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="el">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Πλατιά Στράτα - Καφενείο & Ταβέρνα | Έξω Μουλιανά Σητεία</title>
+    <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #2c4c38;      /* Βαθύ πράσινο της ελιάς */
+            --accent: #b85b34;       /* Terracotta / Πήλινο */
+            --bg: #fcf8f2;           /* Χρώμα παπύρου / ζαχαρί */
+            --card: #ffffff;
+            --border: #e2d7c5;
+            --text-dark: #2b2b2b;
+            --text-light: #666666;
+            --whatsapp-color: #25D366;
+            --viber-color: #7360f2;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg); color: var(--text-dark); padding-bottom: 120px; }
+
+        header {
+            background: var(--primary);
+            color: #fff;
+            text-align: center;
+            padding: 2rem 1rem 1.2rem;
+            border-bottom: 4px solid var(--accent);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        header h1 { font-family: 'GFS Didot', serif; font-size: 2.5rem; color: #f7e7ce; letter-spacing: 1px; }
+        header p.subtitle { font-size: 1rem; opacity: 0.9; margin-top: 0.2rem; }
+        header p.info { font-size: 0.85rem; opacity: 0.8; margin-top: 0.3rem; }
+
+        .container { max-width: 800px; margin: 0 auto; padding: 1.2rem 1rem; }
+
+        /* Card για στοιχεία τραπεζιού */
+        .table-card {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 500px) {
+            .form-grid { grid-template-columns: 1fr; }
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 0.9rem;
+            font-weight: 700;
+            color: var(--primary);
+            margin-bottom: 0.4rem;
+        }
+
+        .form-group input, .form-group select {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid var(--border);
+            border-radius: 8px;
+            font-size: 1rem;
+            outline: none;
+            background: #fff;
+        }
+
+        .form-group input:focus, .form-group select:focus {
+            border-color: var(--accent);
+        }
+
+        /* Κατηγορίες & Πιάτα */
+        .category-title {
+            font-family: 'GFS Didot', serif;
+            color: var(--primary);
+            font-size: 1.7rem;
+            margin: 2rem 0 1rem;
+            border-bottom: 2px solid var(--accent);
+            padding-bottom: 0.3rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.8rem;
+        }
+
+        .menu-item {
+            background: var(--card);
+            border: 1px solid var(--border);
+            border-radius: 10px;
+            padding: 0.9rem 1.1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
+        }
+
+        .item-info { flex: 1; padding-right: 0.8rem; }
+        .item-title { font-weight: 700; font-size: 1.05rem; }
+        .item-price { color: var(--accent); font-weight: 700; font-size: 1rem; margin-top: 0.2rem; }
+
+        .item-controls {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .btn-qty {
+            background: var(--primary);
+            color: #fff;
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            font-size: 1.3rem;
+            font-weight: bold;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: background 0.2s;
+        }
+
+        .btn-qty:active { background: var(--accent); }
+        .qty-num { font-weight: 700; font-size: 1.1rem; min-width: 24px; text-align: center; }
+
+        /* Floating Cart Footer */
+        .cart-bar {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background: var(--primary);
+            color: #fff;
+            padding: 1rem 1.2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 -4px 15px rgba(0,0,0,0.2);
+            z-index: 1000;
+        }
+
+        .cart-total-label { font-size: 0.85rem; opacity: 0.85; }
+        .cart-total-price { font-size: 1.4rem; font-weight: 700; color: #f7e7ce; }
+
+        .btn-send {
+            color: #fff;
+            border: none;
+            padding: 0.8rem 1.4rem;
+            border-radius: 30px;
+            font-size: 1rem;
+            font-weight: 700;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            box-shadow: 0 3px 8px rgba(0,0,0,0.2);
+            transition: transform 0.1s;
+        }
+
+        .btn-send:active { transform: scale(0.97); }
+        .btn-viber { background: var(--viber-color); }
+        .btn-whatsapp { background: var(--whatsapp-color); }
+    </style>
+</head>
+<body>
+
+    <header>
+        <h1>Πλατιά Στράτα</h1>
+        <p class="subtitle">Παραδοσιακό Καφενείο - Ταβέρνα - Ρακάδικο</p>
+        <p class="info">Έξω Μουλιανά Σητείας | Ψηφιακή Παραγγελία</p>
+    </header>
+
+    <div class="container">
+        <!-- Στοιχεία Τραπεζιού & Τρόπος Αποστολής -->
+        <div class="table-card">
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="tableNo">Αριθμός Τραπεζιού *</label>
+                    <input type="number" id="tableNo" placeholder="π.χ. 4" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerName">Όνομα Πελάτη (Προαιρετικό)</label>
+                    <input type="text" id="customerName" placeholder="π.χ. Γιώργος">
+                </div>
+            </div>
+            <div class="form-group" style="margin-top: 0.8rem;">
+                <label for="orderType">Τρόπος Αποστολής *</label>
+                <select id="orderType">
+                    <option value="viber">Viber (Προτεινόμενο)</option>
+                    <option value="whatsapp">WhatsApp</option>
+                </select>
+            </div>
+        </div>
+
+        <!-- ΣΑΛΑΤΕΣ -->
+        <div class="category-title">🥗 Σαλάτες</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-id="1" data-name="Χωριάτικη" data-price="6.00">
+                <div class="item-info"><div class="item-title">Χωριάτικη</div><div class="item-price">6,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('1', -1)">-</button><span class="qty-num" id="qty-1">0</span><button class="btn-qty" onclick="updateQty('1', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="2" data-name="Σύγγρειω" data-price="4.00">
+                <div class="item-info"><div class="item-title">Σύγγρειω</div><div class="item-price">4,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('2', -1)">-</button><span class="qty-num" id="qty-2">0</span><button class="btn-qty" onclick="updateQty('2', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="3" data-name="Λάχανο - Καρότο" data-price="4.00">
+                <div class="item-info"><div class="item-title">Λάχανο - Καρότο</div><div class="item-price">4,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('3', -1)">-</button><span class="qty-num" id="qty-3">0</span><button class="btn-qty" onclick="updateQty('3', 1)">+</button></div>
+            </div>
+        </div>
+
+        <!-- ΟΡΕΚΤΙΚΑ -->
+        <div class="category-title">🧆 Ορεκτικά & Μεζέδες</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-id="4" data-name="Τζατζίκι" data-price="4.50">
+                <div class="item-info"><div class="item-title">Τζατζίκι</div><div class="item-price">4,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('4', -1)">-</button><span class="qty-num" id="qty-4">0</span><button class="btn-qty" onclick="updateQty('4', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="5" data-name="Ξύγαλο" data-price="5.50">
+                <div class="item-info"><div class="item-title">Ξύγαλο</div><div class="item-price">5,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('5', -1)">-</button><span class="qty-num" id="qty-5">0</span><button class="btn-qty" onclick="updateQty('5', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="6" data-name="Τυροκροκέτες" data-price="7.00">
+                <div class="item-info"><div class="item-title">Τυροκροκέτες</div><div class="item-price">7,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('6', -1)">-</button><span class="qty-num" id="qty-6">0</span><button class="btn-qty" onclick="updateQty('6', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="7" data-name="Πιταροδάκες" data-price="7.00">
+                <div class="item-info"><div class="item-title">Πιταροδάκες</div><div class="item-price">7,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('7', -1)">-</button><span class="qty-num" id="qty-7">0</span><button class="btn-qty" onclick="updateQty('7', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="8" data-name="Ντάκος" data-price="5.50">
+                <div class="item-info"><div class="item-title">Ντάκος</div><div class="item-price">5,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('8', -1)">-</button><span class="qty-num" id="qty-8">0</span><button class="btn-qty" onclick="updateQty('8', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="9" data-name="Φάβα" data-price="4.50">
+                <div class="item-info"><div class="item-title">Φάβα</div><div class="item-price">4,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('9', -1)">-</button><span class="qty-num" id="qty-9">0</span><button class="btn-qty" onclick="updateQty('9', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="10" data-name="Μακρί μεζί" data-price="7.00">
+                <div class="item-info"><div class="item-title">Μακρί μεζί</div><div class="item-price">7,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('10', -1)">-</button><span class="qty-num" id="qty-10">0</span><button class="btn-qty" onclick="updateQty('10', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="11" data-name="Πατάτες τηγανιτές" data-price="5.50">
+                <div class="item-info"><div class="item-title">Πατάτες τηγανιτές</div><div class="item-price">5,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('11', -1)">-</button><span class="qty-num" id="qty-11">0</span><button class="btn-qty" onclick="updateQty('11', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="12" data-name="Κολοκυθάκια τηγανητά" data-price="5.00">
+                <div class="item-info"><div class="item-title">Κολοκυθάκια τηγανητά</div><div class="item-price">5,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('12', -1)">-</button><span class="qty-num" id="qty-12">0</span><button class="btn-qty" onclick="updateQty('12', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="13" data-name="Στάκα με αυγά" data-price="5.00">
+                <div class="item-info"><div class="item-title">Στάκα με αυγά</div><div class="item-price">5,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('13', -1)">-</button><span class="qty-num" id="qty-13">0</span><button class="btn-qty" onclick="updateQty('13', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="14" data-name="Νεράτη" data-price="5.00">
+                <div class="item-info"><div class="item-title">Νεράτη</div><div class="item-price">5,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('14', -1)">-</button><span class="qty-num" id="qty-14">0</span><button class="btn-qty" onclick="updateQty('14', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="15" data-name="Τυροαπιτάκια" data-price="5.00">
+                <div class="item-info"><div class="item-title">Τυροαπιτάκια</div><div class="item-price">5,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('15', -1)">-</button><span class="qty-num" id="qty-15">0</span><button class="btn-qty" onclick="updateQty('15', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="16" data-name="Λαχανοπιτάκια" data-price="5.00">
+                <div class="item-info"><div class="item-title">Λαχανοπιτάκια</div><div class="item-price">5,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('16', -1)">-</button><span class="qty-num" id="qty-16">0</span><button class="btn-qty" onclick="updateQty('16', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="17" data-name="Φέτα λαδορίγανη" data-price="4.50">
+                <div class="item-info"><div class="item-title">Φέτα λαδορίγανη</div><div class="item-price">4,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('17', -1)">-</button><span class="qty-num" id="qty-17">0</span><button class="btn-qty" onclick="updateQty('17', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="18" data-name="Λουκάνικο Χωριάτικο" data-price="7.50">
+                <div class="item-info"><div class="item-title">Λουκάνικο Χωριάτικο</div><div class="item-price">7,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('18', -1)">-</button><span class="qty-num" id="qty-18">0</span><button class="btn-qty" onclick="updateQty('18', 1)">+</button></div>
+            </div>
+        </div>
+
+        <!-- ΟΜΕΛΕΤΕΣ & ΠΙΤΣΕΣ -->
+        <div class="category-title">🍳 Ομελέτες & Πίτσες</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-id="19" data-name="Ομελέτα Σπέσιαλ Μεγάλη" data-price="10.00">
+                <div class="item-info"><div class="item-title">Ομελέτα Σπέσιαλ Μεγάλη</div><div class="item-price">10,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('19', -1)">-</button><span class="qty-num" id="qty-19">0</span><button class="btn-qty" onclick="updateQty('19', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="20" data-name="Ομελέτα Σπέσιαλ Μικρή" data-price="8.00">
+                <div class="item-info"><div class="item-title">Ομελέτα Σπέσιαλ Μικρή</div><div class="item-price">8,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('20', -1)">-</button><span class="qty-num" id="qty-20">0</span><button class="btn-qty" onclick="updateQty('20', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="21" data-name="Τοστ" data-price="2.00">
+                <div class="item-info"><div class="item-title">Τοστ</div><div class="item-price">2,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('21', -1)">-</button><span class="qty-num" id="qty-21">0</span><button class="btn-qty" onclick="updateQty('21', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="22" data-name="Πίτσα Σπέσιαλ μεγάλη" data-price="10.00">
+                <div class="item-info"><div class="item-title">Πίτσα Σπέσιαλ μεγάλη</div><div class="item-price">10,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('22', -1)">-</button><span class="qty-num" id="qty-22">0</span><button class="btn-qty" onclick="updateQty('22', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="23" data-name="Πίτσα Σπέσιαλ μικρή" data-price="8.00">
+                <div class="item-info"><div class="item-title">Πίτσα Σπέσιαλ μικρή</div><div class="item-price">8,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('23', -1)">-</button><span class="qty-num" id="qty-23">0</span><button class="btn-qty" onclick="updateQty('23', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="24" data-name="Πίτσα Γίγας" data-price="15.00">
+                <div class="item-info"><div class="item-title">Πίτσα Γίγας</div><div class="item-price">15,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('24', -1)">-</button><span class="qty-num" id="qty-24">0</span><button class="btn-qty" onclick="updateQty('24', 1)">+</button></div>
+            </div>
+        </div>
+
+        <!-- ΤΗΣ ΩΡΑΣ -->
+        <div class="category-title">🥩 Της Ώρας</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-id="25" data-name="Σουβλάκι χοιρινό (τεμ.)" data-price="2.20">
+                <div class="item-info"><div class="item-title">Σουβλάκι χοιρινό (τεμάχιο)</div><div class="item-price">2,20 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('25', -1)">-</button><span class="qty-num" id="qty-25">0</span><button class="btn-qty" onclick="updateQty('25', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="26" data-name="Σουβλάκι κοτόπουλο (τεμ.)" data-price="2.50">
+                <div class="item-info"><div class="item-title">Σουβλάκι κοτόπουλο (τεμάχιο)</div><div class="item-price">2,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('26', -1)">-</button><span class="qty-num" id="qty-26">0</span><button class="btn-qty" onclick="updateQty('26', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="27" data-name="Πανσέτα 1kg" data-price="10.00">
+                <div class="item-info"><div class="item-title">Πανσέτα 1kg</div><div class="item-price">10,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('27', -1)">-</button><span class="qty-num" id="qty-27">0</span><button class="btn-qty" onclick="updateQty('27', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="28" data-name="Πανσέτα μερίδα" data-price="10.00">
+                <div class="item-info"><div class="item-title">Πανσέτα μερίδα</div><div class="item-price">10,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('28', -1)">-</button><span class="qty-num" id="qty-28">0</span><button class="btn-qty" onclick="updateQty('28', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="29" data-name="Παιδάκια κοτόπουλο 1kg" data-price="15.00">
+                <div class="item-info"><div class="item-title">Παιδάκια κοτόπουλο 1kg</div><div class="item-price">15,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('29', -1)">-</button><span class="qty-num" id="qty-29">0</span><button class="btn-qty" onclick="updateQty('29', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="30" data-name="Παιδάκια κοτόπουλο μερίδα" data-price="9.00">
+                <div class="item-info"><div class="item-title">Παιδάκια κοτόπουλο μερίδα</div><div class="item-price">9,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('30', -1)">-</button><span class="qty-num" id="qty-30">0</span><button class="btn-qty" onclick="updateQty('30', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="31" data-name="Μπριζόλα χοιρινή" data-price="9.00">
+                <div class="item-info"><div class="item-title">Μπριζόλα χοιρινή</div><div class="item-price">9,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('31', -1)">-</button><span class="qty-num" id="qty-31">0</span><button class="btn-qty" onclick="updateQty('31', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="32" data-name="Κοτόπουλο φιλέτο" data-price="10.00">
+                <div class="item-info"><div class="item-title">Κοτόπουλο φιλέτο</div><div class="item-price">10,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('32', -1)">-</button><span class="qty-num" id="qty-32">0</span><button class="btn-qty" onclick="updateQty('32', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="33" data-name="Μπερτέκια μερίδα" data-price="10.00">
+                <div class="item-info"><div class="item-title">Μπερτέκια μερίδα</div><div class="item-price">10,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('33', -1)">-</button><span class="qty-num" id="qty-33">0</span><button class="btn-qty" onclick="updateQty('33', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="34" data-name="Κεμπάπ τεμάχιο" data-price="2.50">
+                <div class="item-info"><div class="item-title">Κεμπάπ τεμάχιο</div><div class="item-price">2,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('34', -1)">-</button><span class="qty-num" id="qty-34">0</span><button class="btn-qty" onclick="updateQty('34', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="35" data-name="Κεμπάπ μερίδα" data-price="10.00">
+                <div class="item-info"><div class="item-title">Κεμπάπ μερίδα</div><div class="item-price">10,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('35', -1)">-</button><span class="qty-num" id="qty-35">0</span><button class="btn-qty" onclick="updateQty('35', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="36" data-name="Παιδάκια αρνίσια μερίδα" data-price="14.00">
+                <div class="item-info"><div class="item-title">Παιδάκια αρνίσια μερίδα</div><div class="item-price">14,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('36', -1)">-</button><span class="qty-num" id="qty-36">0</span><button class="btn-qty" onclick="updateQty('36', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="37" data-name="Παιδάκια αρνίσια 1 kg" data-price="14.00">
+                <div class="item-info"><div class="item-title">Παιδάκια αρνίσια 1 kg</div><div class="item-price">14,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('37', -1)">-</button><span class="qty-num" id="qty-37">0</span><button class="btn-qty" onclick="updateQty('37', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="38" data-name="Ποικιλία κρεατικών μικρή" data-price="20.00">
+                <div class="item-info"><div class="item-title">Ποικιλία κρεατικών μικρή</div><div class="item-price">20,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('38', -1)">-</button><span class="qty-num" id="qty-38">0</span><button class="btn-qty" onclick="updateQty('38', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="39" data-name="Ποικιλία κρεατικών μεγάλη" data-price="40.00">
+                <div class="item-info"><div class="item-title">Ποικιλία κρεατικών μεγάλη</div><div class="item-price">40,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('39', -1)">-</button><span class="qty-num" id="qty-39">0</span><button class="btn-qty" onclick="updateQty('39', 1)">+</button></div>
+            </div>
+        </div>
+
+        <!-- ΣΟΥΒΛΑΣ -->
+        <div class="category-title">🍖 Σούβλας</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-id="40" data-name="Κοντοσούβλι Κοτόπουλο μερίδα" data-price="9.00">
+                <div class="item-info"><div class="item-title">Κοντοσούβλι Κοτόπουλο μερίδα</div><div class="item-price">9,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('40', -1)">-</button><span class="qty-num" id="qty-40">0</span><button class="btn-qty" onclick="updateQty('40', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="41" data-name="Κοντοσούβλι Χοιρινό μερίδα" data-price="9.50">
+                <div class="item-info"><div class="item-title">Κοντοσούβλι Χοιρινό μερίδα</div><div class="item-price">9,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('41', -1)">-</button><span class="qty-num" id="qty-41">0</span><button class="btn-qty" onclick="updateQty('41', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="42" data-name="Αρνί μερίδα" data-price="14.00">
+                <div class="item-info"><div class="item-title">Αρνί μερίδα</div><div class="item-price">14,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('42', -1)">-</button><span class="qty-num" id="qty-42">0</span><button class="btn-qty" onclick="updateQty('42', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="43" data-name="Αρνί 1 kg" data-price="36.00">
+                <div class="item-info"><div class="item-title">Αρνί 1 kg</div><div class="item-price">36,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('43', -1)">-</button><span class="qty-num" id="qty-43">0</span><button class="btn-qty" onclick="updateQty('43', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="44" data-name="Κότα" data-price="8.50">
+                <div class="item-info"><div class="item-title">Κότα</div><div class="item-price">8,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('44', -1)">-</button><span class="qty-num" id="qty-44">0</span><button class="btn-qty" onclick="updateQty('44', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="45" data-name="Κοτόπουλο ολόκληρο" data-price="16.00">
+                <div class="item-info"><div class="item-title">Κοτόπουλο ολόκληρο</div><div class="item-price">16,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('45', -1)">-</button><span class="qty-num" id="qty-45">0</span><button class="btn-qty" onclick="updateQty('45', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="46" data-name="Πανάλτα μερίδα" data-price="10.00">
+                <div class="item-info"><div class="item-title">Πανάλτα μερίδα</div><div class="item-price">10,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('46', -1)">-</button><span class="qty-num" id="qty-46">0</span><button class="btn-qty" onclick="updateQty('46', 1)">+</button></div>
+            </div>
+        </div>
+
+        <!-- ΠΟΤΑ -->
+        <div class="category-title">🍺 Ποτά & Αναψυκτικά</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-id="47" data-name="Μπίρα Amstel / Fix / Mythos / Alfa" data-price="3.50">
+                <div class="item-info"><div class="item-title">Μπίρα Amstel / Fix / Mythos / Alfa</div><div class="item-price">3,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('47', -1)">-</button><span class="qty-num" id="qty-47">0</span><button class="btn-qty" onclick="updateQty('47', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="48" data-name="Μπίρα Kaiser" data-price="4.00">
+                <div class="item-info"><div class="item-title">Μπίρα Kaiser</div><div class="item-price">4,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('48', -1)">-</button><span class="qty-num" id="qty-48">0</span><button class="btn-qty" onclick="updateQty('48', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="49" data-name="Heineken / Mefen" data-price="4.00">
+                <div class="item-info"><div class="item-title">Heineken / Mefen</div><div class="item-price">4,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('49', -1)">-</button><span class="qty-num" id="qty-49">0</span><button class="btn-qty" onclick="updateQty('49', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="50" data-name="Ρακή Καραφάκι Διπλό" data-price="5.00">
+                <div class="item-info"><div class="item-title">Ρακή Καραφάκι Διπλό (Μονό 2.50€)</div><div class="item-price">5,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('50', -1)">-</button><span class="qty-num" id="qty-50">0</span><button class="btn-qty" onclick="updateQty('50', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="51" data-name="Κρασί Λευκό 500 ml" data-price="5.00">
+                <div class="item-info"><div class="item-title">Κρασί Λευκό 500 ml</div><div class="item-price">5,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('51', -1)">-</button><span class="qty-num" id="qty-51">0</span><button class="btn-qty" onclick="updateQty('51', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="52" data-name="Κρασί Λευκό 1 kg" data-price="8.50">
+                <div class="item-info"><div class="item-title">Κρασί Λευκό 1 kg</div><div class="item-price">8,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('52', -1)">-</button><span class="qty-num" id="qty-52">0</span><button class="btn-qty" onclick="updateQty('52', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="53" data-name="Κρασί Κόκκινο 500 ml" data-price="3.50">
+                <div class="item-info"><div class="item-title">Κρασί Κόκκινο 500 ml</div><div class="item-price">3,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('53', -1)">-</button><span class="qty-num" id="qty-53">0</span><button class="btn-qty" onclick="updateQty('53', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="54" data-name="Κρασί Κόκκινο 1 kg" data-price="3.00">
+                <div class="item-info"><div class="item-title">Κρασί Κόκκινο 1 kg</div><div class="item-price">3,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('54', -1)">-</button><span class="qty-num" id="qty-54">0</span><button class="btn-qty" onclick="updateQty('54', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="55" data-name="Φρέσκος χυμός Πορτοκάλι" data-price="8.50">
+                <div class="item-info"><div class="item-title">Φρέσκος χυμός Πορτοκάλι</div><div class="item-price">8,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('55', -1)">-</button><span class="qty-num" id="qty-55">0</span><button class="btn-qty" onclick="updateQty('55', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="56" data-name="Αναψυκτικά (Pepsi/7up/Ήβη/Σόδα)" data-price="1.50">
+                <div class="item-info"><div class="item-title">Αναψυκτικά (Pepsi/7up/Ήβη/Σόδα)</div><div class="item-price">1,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('56', -1)">-</button><span class="qty-num" id="qty-56">0</span><button class="btn-qty" onclick="updateQty('56', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="57" data-name="Coca Cola / Coca Cola Zero" data-price="1.50">
+                <div class="item-info"><div class="item-title">Coca Cola / Coca Cola Zero</div><div class="item-price">1,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('57', -1)">-</button><span class="qty-num" id="qty-57">0</span><button class="btn-qty" onclick="updateQty('57', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="58" data-name="Ice Tea - ροδάκινο / λεμόνι" data-price="1.50">
+                <div class="item-info"><div class="item-title">Ice Tea - ροδάκινο / λεμόνι</div><div class="item-price">1,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('58', -1)">-</button><span class="qty-num" id="qty-58">0</span><button class="btn-qty" onclick="updateQty('58', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="59" data-name="Φλωράλ" data-price="1.50">
+                <div class="item-info"><div class="item-title">Φλωράλ</div><div class="item-price">1,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('59', -1)">-</button><span class="qty-num" id="qty-59">0</span><button class="btn-qty" onclick="updateQty('59', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="60" data-name="Νερό 750 ml" data-price="0.50">
+                <div class="item-info"><div class="item-title">Νερό 750 ml</div><div class="item-price">0,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('60', -1)">-</button><span class="qty-num" id="qty-60">0</span><button class="btn-qty" onclick="updateQty('60', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="61" data-name="Νερό 1 L" data-price="1.00">
+                <div class="item-info"><div class="item-title">Νερό 1 L</div><div class="item-price">1,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('61', -1)">-</button><span class="qty-num" id="qty-61">0</span><button class="btn-qty" onclick="updateQty('61', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="62" data-name="Ανθρακούχο νερό" data-price="2.00">
+                <div class="item-info"><div class="item-title">Ανθρακούχο νερό</div><div class="item-price">2,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('62', -1)">-</button><span class="qty-num" id="qty-62">0</span><button class="btn-qty" onclick="updateQty('62', 1)">+</button></div>
+            </div>
+        </div>
+
+        <!-- ΚΑΦΕΔΕΣ -->
+        <div class="category-title">☕ Καφέδες & Ροφήματα</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-id="63" data-name="Ελληνικός μονός" data-price="1.20">
+                <div class="item-info"><div class="item-title">Ελληνικός μονός</div><div class="item-price">1,20 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('63', -1)">-</button><span class="qty-num" id="qty-63">0</span><button class="btn-qty" onclick="updateQty('63', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="64" data-name="Ελληνικός διπλός" data-price="2.00">
+                <div class="item-info"><div class="item-title">Ελληνικός διπλός</div><div class="item-price">2,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('64', -1)">-</button><span class="qty-num" id="qty-64">0</span><button class="btn-qty" onclick="updateQty('64', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="65" data-name="Νες - Φραπέ" data-price="2.00">
+                <div class="item-info"><div class="item-title">Νες - Φραπέ</div><div class="item-price">2,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('65', -1)">-</button><span class="qty-num" id="qty-65">0</span><button class="btn-qty" onclick="updateQty('65', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="66" data-name="Καφές Φίλτρου" data-price="2.00">
+                <div class="item-info"><div class="item-title">Καφές Φίλτρου</div><div class="item-price">2,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('66', -1)">-</button><span class="qty-num" id="qty-66">0</span><button class="btn-qty" onclick="updateQty('66', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="67" data-name="Espresso μονό" data-price="2.30">
+                <div class="item-info"><div class="item-title">Espresso μονό</div><div class="item-price">2,30 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('67', -1)">-</button><span class="qty-num" id="qty-67">0</span><button class="btn-qty" onclick="updateQty('67', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="68" data-name="Espresso διπλό" data-price="3.30">
+                <div class="item-info"><div class="item-title">Espresso διπλό</div><div class="item-price">3,30 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('68', -1)">-</button><span class="qty-num" id="qty-68">0</span><button class="btn-qty" onclick="updateQty('68', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="69" data-name="Freddo Espresso" data-price="2.50">
+                <div class="item-info"><div class="item-title">Freddo Espresso</div><div class="item-price">2,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('69', -1)">-</button><span class="qty-num" id="qty-69">0</span><button class="btn-qty" onclick="updateQty('69', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="70" data-name="Freddo Cappuccino" data-price="2.50">
+                <div class="item-info"><div class="item-title">Freddo Cappuccino</div><div class="item-price">2,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('70', -1)">-</button><span class="qty-num" id="qty-70">0</span><button class="btn-qty" onclick="updateQty('70', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="71" data-name="Cappuccino μονό" data-price="2.00">
+                <div class="item-info"><div class="item-title">Cappuccino μονό</div><div class="item-price">2,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('71', -1)">-</button><span class="qty-num" id="qty-71">0</span><button class="btn-qty" onclick="updateQty('71', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="72" data-name="Cappuccino διπλό" data-price="2.80">
+                <div class="item-info"><div class="item-title">Cappuccino διπλό</div><div class="item-price">2,80 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('72', -1)">-</button><span class="qty-num" id="qty-72">0</span><button class="btn-qty" onclick="updateQty('72', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="73" data-name="Σοκολάτα Ζεστή - Κρύα" data-price="3.00">
+                <div class="item-info"><div class="item-title">Σοκολάτα Ζεστή - Κρύα</div><div class="item-price">3,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('73', -1)">-</button><span class="qty-num" id="qty-73">0</span><button class="btn-qty" onclick="updateQty('73', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="74" data-name="Αφεψήματα" data-price="2.00">
+                <div class="item-info"><div class="item-title">Αφεψήματα</div><div class="item-price">2,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('74', -1)">-</button><span class="qty-num" id="qty-74">0</span><button class="btn-qty" onclick="updateQty('74', 1)">+</button></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Floating Footer Παραγγελίας -->
+    <div class="cart-bar">
+        <div>
+            <div class="cart-total-label">Σύνολο Παραγγελίας:</div>
+            <div class="cart-total-price" id="totalPrice">0.00 €</div>
+        </div>
+        <button class="btn-send btn-viber" id="sendBtn" onclick="processOrder()">
+            📲 Αποστολή
+        </button>
+    </div>
+
+    <script>
+        // =========================================================
+        // ⚙️ ΡΥΘΜΙΣΕΙΣ ΚΑΤΑΣΤΗΜΑΤΟΣ
+        // Βάλτε το κινητό του υπευθύνου με τον κωδικό χώρας (30)
+        // =========================================================
+        const OWNER_PHONE = "306900000000"; // π.χ. 306912345678
+
+        let cart = {};
+
+        function updateQty(id, delta) {
+            if (!cart[id]) cart[id] = 0;
+            cart[id] += delta;
+            if (cart[id] < 0) cart[id] = 0;
+
+            document.getElementById(`qty-${id}`).innerText = cart[id];
+            calculateTotal();
+        }
+
+        function calculateTotal() {
+            let total = 0;
+            document.querySelectorAll('.menu-item').forEach(item => {
+                const id = item.getAttribute('data-id');
+                const price = parseFloat(item.getAttribute('data-price'));
+                const qty = cart[id] || 0;
+                total += price * qty;
+            });
+            document.getElementById('totalPrice').innerText = total.toFixed(2) + ' €';
+        }
+
+        function processOrder() {
+            const tableNo = document.getElementById('tableNo').value.trim();
+            const name = document.getElementById('customerName').value.trim();
+            const orderType = document.getElementById('orderType').value;
+
+            if (!tableNo) {
+                alert('Παρακαλούμε συμπληρώστε τον αριθμό τραπεζιού σας!');
+                document.getElementById('tableNo').focus();
+                return;
+            }
+
+            let hasItems = false;
+            let totalSum = 0;
+
+            // Κατασκευή κειμένου παραγγελίας
+            let orderText = `🌿 *ΝΕΑ ΠΑΡΑΓΓΕΛΙΑ - ΠΛΑΤΙΑ ΣΤΡΑΤΑ*\n`;
+            orderText += `📍 *Τραπέζι:* No ${tableNo}\n`;
+            if (name) orderText += `👤 *Πελάτης:* ${name}\n`;
+            orderText += `------------------------------\n`;
+
+            document.querySelectorAll('.menu-item').forEach(item => {
+                const id = item.getAttribute('data-id');
+                const itemName = item.getAttribute('data-name');
+                const price = parseFloat(item.getAttribute('data-price'));
+                const qty = cart[id] || 0;
+
+                if (qty > 0) {
+                    hasItems = true;
+                    const itemTotal = price * qty;
+                    totalSum += itemTotal;
+                    orderText += `• ${qty}x ${itemName} (${itemTotal.toFixed(2)}€)\n`;
+                }
+            });
+
+            if (!hasItems) {
+                alert('Δεν έχετε επιλέξει κανένα προϊόν από τον κατάλογο!');
+                return;
+            }
+
+            orderText += `------------------------------\n`;
+            orderText += `💰 *Σύνολο:* ${totalSum.toFixed(2)} €`;
+
+            const encodedText = encodeURIComponent(orderText);
+
+            if (orderType === 'viber') {
+                // Viber Deep Link (Ανοίγει Viber chat με έτοιμο κείμενο)
+                window.location.href = `viber://chat?number=%2B${OWNER_PHONE}&draft=${encodedText}`;
+                
+                // Fallback αν δεν ανοίξει το Viber URL scheme σε παλιά κινητά
+                setTimeout(() => {
+                    window.open(`https://viber.click/${OWNER_PHONE}?text=${encodedText}`, '_blank');
+                }, 1000);
+
+            } else {
+                // WhatsApp Link
+                window.open(`https://wa.me/${OWNER_PHONE}?text=${encodedText}`, '_blank');
+            }
+        }
+
+        // Αλλαγή στυλ κουμπιού αποστολής ανάλογα με την επιλογή Viber/WhatsApp
+        document.getElementById('orderType').addEventListener('change', function(e) {
+            const btn = document.getElementById('sendBtn');
+            if (e.target.value === 'whatsapp') {
+                btn.className = 'btn-send btn-whatsapp';
+            } else {
+                btn.className = 'btn-send btn-viber';
+            }
+        });
+    </script>
+</body>
+</html>
