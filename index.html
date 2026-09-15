@@ -4,358 +4,420 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Πλατιά Στράτα - Καφενείο & Ταβέρνα | Έξω Μουλιανά Σητεία</title>
+    <!-- Tailwind CSS CDN for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
     <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        olive: '#2c4c38',
+                        terracotta: '#b85b34',
+                        papyrus: '#fcf8f2',
+                        viber: '#7360f2',
+                        whatsapp: '#25D366'
+                    },
+                    fontFamily: {
+                        didot: ['GFS Didot', 'serif'],
+                        roboto: ['Roboto', 'sans-serif']
+                    }
+                }
+            }
+        }
+    </script>
     <style>
-        :root {
-            --primary: #2c4c38;      /* Βαθύ πράσινο της ελιάς */
-            --accent: #b85b34;       /* Terracotta / Πήλινο */
-            --bg: #fcf8f2;           /* Χρώμα παπύρου / ζαχαρί */
-            --card: #ffffff;
-            --border: #e2d7c5;
-            --text-dark: #2b2b2b;
-            --whatsapp-color: #25D366;
-            --viber-color: #7360f2;
-        }
-
-        * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Roboto', sans-serif; background: var(--bg); color: var(--text-dark); padding-bottom: 120px; }
-
-        header {
-            background: var(--primary);
-            color: #fff;
-            text-align: center;
-            padding: 2rem 1rem 1.2rem;
-            border-bottom: 4px solid var(--accent);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-        }
-
-        header h1 { font-family: 'GFS Didot', serif; font-size: 2.5rem; color: #f7e7ce; letter-spacing: 1px; }
-        header p.subtitle { font-size: 1rem; opacity: 0.9; margin-top: 0.2rem; }
-        header p.info { font-size: 0.85rem; opacity: 0.8; margin-top: 0.3rem; }
-
-        .container { max-width: 800px; margin: 0 auto; padding: 1.2rem 1rem; }
-
-        .table-card {
-            background: var(--card);
-            border: 2px solid var(--border);
-            border-radius: 12px;
-            padding: 1.2rem;
-            margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-
-        .form-grid {
-            display: grid;
-            grid-template-columns: 1fr 1fr;
-            gap: 1rem;
-        }
-
-        @media (max-width: 500px) {
-            .form-grid { grid-template-columns: 1fr; }
-        }
-
-        .form-group label {
-            display: block;
-            font-size: 0.9rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 0.4rem;
-        }
-
-        .form-group input, .form-group select {
-            width: 100%;
-            padding: 0.75rem;
-            border: 1px solid var(--border);
-            border-radius: 8px;
-            font-size: 1rem;
-            outline: none;
-            background: #fff;
-        }
-
-        .category-title {
-            font-family: 'GFS Didot', serif;
-            color: var(--primary);
-            font-size: 1.7rem;
-            margin: 2rem 0 1rem;
-            border-bottom: 2px solid var(--accent);
-            padding-bottom: 0.3rem;
-        }
-
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.8rem;
-        }
-
-        .menu-item {
-            background: var(--card);
-            border: 1px solid var(--border);
-            border-radius: 10px;
-            padding: 0.9rem 1.1rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
-        }
-
-        .item-info { flex: 1; padding-right: 0.8rem; }
-        .item-title { font-weight: 700; font-size: 1.05rem; }
-        .item-price { color: var(--accent); font-weight: 700; font-size: 1rem; margin-top: 0.2rem; }
-
-        .item-controls {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .btn-qty {
-            background: var(--primary);
-            color: #fff;
-            border: none;
-            width: 34px;
-            height: 34px;
-            border-radius: 50%;
-            font-size: 1.3rem;
-            font-weight: bold;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .qty-num { font-weight: 700; font-size: 1.1rem; min-width: 24px; text-align: center; }
-
-        .cart-bar {
-            position: fixed;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            background: var(--primary);
-            color: #fff;
-            padding: 1rem 1.2rem;
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            box-shadow: 0 -4px 15px rgba(0,0,0,0.2);
-            z-index: 1000;
-        }
-
-        .cart-total-label { font-size: 0.85rem; opacity: 0.85; }
-        .cart-total-price { font-size: 1.4rem; font-weight: 700; color: #f7e7ce; }
-
-        .btn-send {
-            color: #fff;
-            border: none;
-            padding: 0.8rem 1.4rem;
-            border-radius: 30px;
-            font-size: 1rem;
-            font-weight: 700;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
-
-        .btn-viber { background: var(--viber-color); }
-        .btn-whatsapp { background: var(--whatsapp-color); }
+        body { font-family: 'Roboto', sans-serif; background-color: #fcf8f2; }
     </style>
 </head>
-<body>
+<body class="bg-papyrus text-gray-800 min-h-screen pb-32">
 
-    <header>
-        <h1>Πλατιά Στράτα</h1>
-        <p class="subtitle">Παραδοσιακό Καφενείο - Ταβέρνα - Ρακάδικο</p>
-        <p class="info">Έξω Μουλιανά Σητείας | Ψηφιακή Παραγγελία</p>
+    <header class="bg-olive text-white text-center py-6 px-4 border-b-4 border-terracotta shadow-md">
+        <h1 class="font-didot text-3xl md:text-4xl text-amber-100 tracking-wide font-bold mb-1">Πλατιά Στράτα</h1>
+        <p class="text-sm md:text-base opacity-90">Παραδοσιακό Καφενείο - Ταβέρνα - Ρακάδικο</p>
+        <p class="text-xs md:text-sm opacity-75 mt-1">📍 Έξω Μουλιανά, Σητεία | 👨‍🍳 Μανοναδάκης Γεώργιος</p>
     </header>
 
-    <div class="container">
-        <!-- Στοιχεία Τραπεζιού -->
-        <div class="table-card">
-            <div class="form-grid">
-                <div class="form-group">
-                    <label for="tableNo">Αριθμός Τραπεζιού *</label>
-                    <input type="number" id="tableNo" placeholder="π.χ. 4" min="1" required>
+    <main class="max-w-3xl mx-auto px-4 py-6">
+        
+        <div class="bg-white border-2 border-amber-200 rounded-xl p-4 md:p-6 mb-6 shadow-sm">
+            <h2 class="font-didot text-xl text-olive font-bold mb-3 border-b border-amber-200 pb-2">📍 Στοιχεία Παραγγελίας</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                <div>
+                    <label class="block text-sm font-bold text-olive mb-1" for="tableNo">Αριθμός Τραπεζιού <span class="text-red-500">*</span></label>
+                    <input type="number" id="tableNo" min="1" placeholder="π.χ. 4" class="w-full p-3 border border-amber-200 rounded-lg focus:outline-none focus:border-terracotta bg-gray-50 text-lg font-bold">
                 </div>
-                <div class="form-group">
-                    <label for="customerName">Όνομα Πελάτη (Προαιρετικό)</label>
-                    <input type="text" id="customerName" placeholder="π.χ. Γιώργος">
+                <div>
+                    <label class="block text-sm font-bold text-olive mb-1" for="customerName">Όνομα (Προαιρετικό)</label>
+                    <input type="text" id="customerName" placeholder="π.χ. Γιώργος" class="w-full p-3 border border-amber-200 rounded-lg focus:outline-none focus:border-terracotta bg-gray-50 text-base">
                 </div>
             </div>
-            <div class="form-group" style="margin-top: 0.8rem;">
-                <label for="orderType">Τρόπος Αποστολής *</label>
-                <select id="orderType">
-                    <option value="viber">Viber (Προτεινόμενο)</option>
-                    <option value="whatsapp">WhatsApp</option>
-                </select>
+            <div class="mt-4">
+                <label class="block text-sm font-bold text-olive mb-1">Τρόπος Αποστολής</label>
+                <div class="grid grid-cols-2 gap-3">
+                    <button type="button" id="typeViber" onclick="setApp('viber')" class="py-2.5 px-4 rounded-lg font-bold text-sm border-2 border-viber bg-viber text-white transition flex items-center justify-center gap-2">
+                        <span>💬 Viber</span>
+                    </button>
+                    <button type="button" id="typeWA" onclick="setApp('whatsapp')" class="py-2.5 px-4 rounded-lg font-bold text-sm border-2 border-gray-300 bg-gray-100 text-gray-700 transition flex items-center justify-center gap-2">
+                        <span>📲 WhatsApp</span>
+                    </button>
+                </div>
             </div>
         </div>
 
-        <!-- ΣΑΛΑΤΕΣ -->
-        <div class="category-title">🥗 Σαλάτες</div>
-        <div class="menu-grid">
-            <div class="menu-item" data-id="1" data-name="Χωριάτικη" data-price="6.00">
-                <div class="item-info"><div class="item-title">Χωριάτικη</div><div class="item-price">6,00 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('1', -1)">-</button><span class="qty-num" id="qty-1">0</span><button class="btn-qty" onclick="updateQty('1', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="2" data-name="Σύγγρειω" data-price="4.00">
-                <div class="item-info"><div class="item-title">Σύγγρειω</div><div class="item-price">4,00 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('2', -1)">-</button><span class="qty-num" id="qty-2">0</span><button class="btn-qty" onclick="updateQty('2', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="3" data-name="Λάχανο - Καρότο" data-price="4.00">
-                <div class="item-info"><div class="item-title">Λάχανο - Καρότο</div><div class="item-price">4,00 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('3', -1)">-</button><span class="qty-num" id="qty-3">0</span><button class="btn-qty" onclick="updateQty('3', 1)">+</button></div>
-            </div>
+        <div class="mb-6">
+            <input type="text" id="searchInput" oninput="filterMenu()" placeholder="🔍 Αναζήτηση πιάτου ή ποτού..." class="w-full p-3 border border-amber-200 rounded-full shadow-sm focus:outline-none focus:border-terracotta bg-white">
         </div>
 
-        <!-- ΟΡΕΚΤΙΚΑ -->
-        <div class="category-title">🧆 Ορεκτικά & Μεζέδες</div>
-        <div class="menu-grid">
-            <div class="menu-item" data-id="4" data-name="Τζατζίκι" data-price="4.50">
-                <div class="item-info"><div class="item-title">Τζατζίκι</div><div class="item-price">4,50 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('4', -1)">-</button><span class="qty-num" id="qty-4">0</span><button class="btn-qty" onclick="updateQty('4', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="5" data-name="Ξύγαλο" data-price="5.50">
-                <div class="item-info"><div class="item-title">Ξύγαλο</div><div class="item-price">5,50 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('5', -1)">-</button><span class="qty-num" id="qty-5">0</span><button class="btn-qty" onclick="updateQty('5', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="8" data-name="Ντάκος" data-price="5.50">
-                <div class="item-info"><div class="item-title">Ντάκος</div><div class="item-price">5,50 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('8', -1)">-</button><span class="qty-num" id="qty-8">0</span><button class="btn-qty" onclick="updateQty('8', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="11" data-name="Πατάτες τηγανιτές" data-price="5.50">
-                <div class="item-info"><div class="item-title">Πατάτες τηγανιτές</div><div class="item-price">5,50 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('11', -1)">-</button><span class="qty-num" id="qty-11">0</span><button class="btn-qty" onclick="updateQty('11', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="13" data-name="Στάκα με αυγά" data-price="5.00">
-                <div class="item-info"><div class="item-title">Στάκα με αυγά</div><div class="item-price">5,00 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('13', -1)">-</button><span class="qty-num" id="qty-13">0</span><button class="btn-qty" onclick="updateQty('13', 1)">+</button></div>
-            </div>
-        </div>
+        <div id="menuContainer" class="space-y-6">
+            
+            <!-- Category: Σαλάτες -->
+            <section class="menu-cat" data-cat="salads">
+                <h3 class="font-didot text-2xl text-olive font-bold border-b-2 border-terracotta pb-1 mb-3">🥗 Σαλάτες</h3>
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Χωριάτικη" data-price="6.00">
+                        <div>
+                            <div class="font-bold text-base md:text-lg">Χωριάτικη</div>
+                            <div class="text-terracotta font-bold text-sm">6,00 €</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Σύγγρειω" data-price="4.00">
+                        <div>
+                            <div class="font-bold text-base md:text-lg">Σύγγρειω</div>
+                            <div class="text-terracotta font-bold text-sm">4,00 €</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Λάχανο - Καρότο" data-price="4.00">
+                        <div>
+                            <div class="font-bold text-base md:text-lg">Λάχανο - Καρότο</div>
+                            <div class="text-terracotta font-bold text-sm">4,00 €</div>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <!-- ΤΗΣ ΩΡΑΣ -->
-        <div class="category-title">🥩 Της Ώρας</div>
-        <div class="menu-grid">
-            <div class="menu-item" data-id="25" data-name="Σουβλάκι χοιρινό (τεμ.)" data-price="2.20">
-                <div class="item-info"><div class="item-title">Σουβλάκι χοιρινό (τεμάχιο)</div><div class="item-price">2,20 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('25', -1)">-</button><span class="qty-num" id="qty-25">0</span><button class="btn-qty" onclick="updateQty('25', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="36" data-name="Παιδάκια αρνίσια μερίδα" data-price="14.00">
-                <div class="item-info"><div class="item-title">Παιδάκια αρνίσια μερίδα</div><div class="item-price">14,00 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('36', -1)">-</button><span class="qty-num" id="qty-36">0</span><button class="btn-qty" onclick="updateQty('36', 1)">+</button></div>
-            </div>
-        </div>
+            <!-- Category: Ορεκτικά -->
+            <section class="menu-cat" data-cat="appetizers">
+                <h3 class="font-didot text-2xl text-olive font-bold border-b-2 border-terracotta pb-1 mb-3">🧆 Ορεκτικά & Μεζέδες</h3>
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Τζατζίκι" data-price="4.50">
+                        <div><div class="font-bold text-base md:text-lg">Τζατζίκι</div><div class="text-terracotta font-bold text-sm">4,50 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Ξύγαλο" data-price="5.50">
+                        <div><div class="font-bold text-base md:text-lg">Ξύγαλο</div><div class="text-terracotta font-bold text-sm">5,50 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Ντάκος" data-price="5.50">
+                        <div><div class="font-bold text-base md:text-lg">Ντάκος</div><div class="text-terracotta font-bold text-sm">5,50 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Πατάτες τηγανιτές" data-price="5.50">
+                        <div><div class="font-bold text-base md:text-lg">Πατάτες τηγανιτές</div><div class="text-terracotta font-bold text-sm">5,50 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Στάκα με αυγά" data-price="5.00">
+                        <div><div class="font-bold text-base md:text-lg">Στάκα με αυγά</div><div class="text-terracotta font-bold text-sm">5,00 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Λουκάνικο Χωριάτικο" data-price="7.50">
+                        <div><div class="font-bold text-base md:text-lg">Λουκάνικο Χωριάτικο</div><div class="text-terracotta font-bold text-sm">7,50 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
 
-        <!-- ΠΟΤΑ -->
-        <div class="category-title">🍺 Ποτά & Ρακές</div>
-        <div class="menu-grid">
-            <div class="menu-item" data-id="50" data-name="Ρακή Καραφάκι Διπλό" data-price="5.00">
-                <div class="item-info"><div class="item-title">Ρακή Καραφάκι Διπλό</div><div class="item-price">5,00 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('50', -1)">-</button><span class="qty-num" id="qty-50">0</span><button class="btn-qty" onclick="updateQty('50', 1)">+</button></div>
+            <!-- Category: Της Ώρας -->
+            <section class="menu-cat" data-cat="grill">
+                <h3 class="font-didot text-2xl text-olive font-bold border-b-2 border-terracotta pb-1 mb-3">🥩 Της Ώρας</h3>
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Σουβλάκι χοιρινό (τεμ.)" data-price="2.20">
+                        <div><div class="font-bold text-base md:text-lg">Σουβλάκι χοιρινό (τεμάχιο)</div><div class="text-terracotta font-bold text-sm">2,20 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Πανσέτα μερίδα" data-price="10.00">
+                        <div><div class="font-bold text-base md:text-lg">Πανσέτα μερίδα</div><div class="text-terracotta font-bold text-sm">10,00 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Παιδάκια αρνίσια μερίδα" data-price="14.00">
+                        <div><div class="font-bold text-base md:text-lg">Παιδάκια αρνίσια μερίδα</div><div class="text-terracotta font-bold text-sm">14,00 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Ποικιλία κρεατικών μικρή" data-price="20.00">
+                        <div><div class="font-bold text-base md:text-lg">Ποικιλία κρεατικών μικρή</div><div class="text-terracotta font-bold text-sm">20,00 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Category: Ποτά & Ρακές -->
+            <section class="menu-cat" data-cat="drinks">
+                <h3 class="font-didot text-2xl text-olive font-bold border-b-2 border-terracotta pb-1 mb-3">🍺 Ποτά & Ρακές</h3>
+                <div class="grid grid-cols-1 gap-3">
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Ρακή Καραφάκι Διπλό" data-price="5.00">
+                        <div><div class="font-bold text-base md:text-lg">Ρακή Καραφάκι Διπλό</div><div class="text-terracotta font-bold text-sm">5,00 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Μπίρα Mythos / Alfa 500ml" data-price="3.50">
+                        <div><div class="font-bold text-base md:text-lg">Μπίρα Mythos / Alfa 500ml</div><div class="text-terracotta font-bold text-sm">3,50 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Κρασί Λευκό 500ml" data-price="5.00">
+                        <div><div class="font-bold text-base md:text-lg">Κρασί Λευκό 500ml</div><div class="text-terracotta font-bold text-sm">5,00 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                    <div class="menu-item bg-white p-3 md:p-4 rounded-lg border border-amber-200 flex justify-between items-center shadow-xs" data-name="Αναψυκτικά 330ml" data-price="1.50">
+                        <div><div class="font-bold text-base md:text-lg">Αναψυκτικά 330ml</div><div class="text-terracotta font-bold text-sm">1,50 €</div></div>
+                        <div class="flex items-center gap-2">
+                            <button onclick="changeQty(this, -1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">-</button>
+                            <span class="qty-val font-bold text-lg w-6 text-center">0</span>
+                            <button onclick="changeQty(this, 1)" class="w-8 h-8 bg-olive text-white rounded-full font-bold text-lg flex items-center justify-center hover:bg-terracotta">+</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+
+    <div class="fixed bottom-0 left-0 right-0 bg-olive text-white px-4 py-3 shadow-2xl z-40 border-t-2 border-amber-200">
+        <div class="max-w-3xl mx-auto flex justify-between items-center">
+            <div>
+                <div class="text-xs opacity-80 uppercase tracking-wider">Σύνολο</div>
+                <div id="totalDisplay" class="text-2xl font-bold text-amber-100">0,00 €</div>
             </div>
-            <div class="menu-item" data-id="47" data-name="Μπίρα Mythos / Alfa" data-price="3.50">
-                <div class="item-info"><div class="item-title">Μπίρα Mythos / Alfa</div><div class="item-price">3,50 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('47', -1)">-</button><span class="qty-num" id="qty-47">0</span><button class="btn-qty" onclick="updateQty('47', 1)">+</button></div>
-            </div>
+            <button onclick="handleCheckout()" id="submitBtn" class="bg-viber hover:opacity-90 text-white font-bold py-3 px-6 rounded-full shadow-lg transition flex items-center gap-2 text-base">
+                <span>💬 Αποστολή (Viber)</span>
+            </button>
         </div>
     </div>
 
-    <!-- Floating Footer Παραγγελίας -->
-    <div class="cart-bar">
-        <div>
-            <div class="cart-total-label">Σύνολο Παραγγελίας:</div>
-            <div class="cart-total-price" id="totalPrice">0.00 €</div>
+    <div id="viberModal" class="hidden fixed inset-0 bg-black/60 z-50 flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl p-6 max-w-md w-full shadow-2xl relative">
+            <h3 class="font-didot text-2xl font-bold text-olive mb-2">📲 Αποστολή στο Viber</h3>
+            <p class="text-sm text-gray-600 mb-4">
+                Επειδή ορισμένες συσκευές εμποδίζουν το αυτόματο πέρασμα κειμένου στο Viber, πατήστε **«Αντιγραφή & Άνοιγμα»** για να επικολληθεί αυτόματα η παραγγελία σας!
+            </p>
+            
+            <div class="bg-gray-100 p-3 rounded-lg border border-gray-200 mb-4 max-h-40 overflow-y-auto font-mono text-xs whitespace-pre-wrap text-gray-700" id="modalOrderPreview"></div>
+
+            <div class="flex flex-col gap-2">
+                <button onclick="copyAndOpenViber()" class="w-full bg-viber text-white py-3 rounded-xl font-bold text-center shadow-md hover:bg-opacity-90 flex justify-center items-center gap-2">
+                    📋 Αντιγραφή & Άνοιγμα Viber
+                </button>
+                <button onclick="tryDirectViberScheme()" class="w-full bg-gray-200 text-gray-800 py-2.5 rounded-xl font-medium text-sm hover:bg-gray-300">
+                    🔗 Άμεσο Άνοιγμα Viber (viber://send)
+                </button>
+                <button onclick="closeModal()" class="w-full text-gray-500 py-2 text-sm text-center font-medium mt-1">
+                    Ακύρωση
+                </button>
+            </div>
         </div>
-        <button class="btn-send btn-viber" id="sendBtn" onclick="processOrder()">
-            📲 Αποστολή
-        </button>
     </div>
 
     <script>
-        // Ενημερωμένο κινητό τηλέφωνο υπευθύνου
-        const OWNER_PHONE = "+306976128413";
+        const TARGET_PHONE = "306976128413";
+        let selectedApp = 'viber';
+        let currentOrderText = '';
 
-        let cart = {};
+        function setApp(app) {
+            selectedApp = app;
+            const btnViber = document.getElementById('typeViber');
+            const btnWA = document.getElementById('typeWA');
+            const submitBtn = document.getElementById('submitBtn');
 
-        function updateQty(id, delta) {
-            if (!cart[id]) cart[id] = 0;
-            cart[id] += delta;
-            if (cart[id] < 0) cart[id] = 0;
-
-            document.getElementById(`qty-${id}`).innerText = cart[id];
-            calculateTotal();
+            if (app === 'viber') {
+                btnViber.className = "py-2.5 px-4 rounded-lg font-bold text-sm border-2 border-viber bg-viber text-white transition flex items-center justify-center gap-2";
+                btnWA.className = "py-2.5 px-4 rounded-lg font-bold text-sm border-2 border-gray-300 bg-gray-100 text-gray-700 transition flex items-center justify-center gap-2";
+                submitBtn.className = "bg-viber hover:opacity-90 text-white font-bold py-3 px-6 rounded-full shadow-lg transition flex items-center gap-2 text-base";
+                submitBtn.innerText = "💬 Αποστολή (Viber)";
+            } else {
+                btnWA.className = "py-2.5 px-4 rounded-lg font-bold text-sm border-2 border-whatsapp bg-whatsapp text-white transition flex items-center justify-center gap-2";
+                btnViber.className = "py-2.5 px-4 rounded-lg font-bold text-sm border-2 border-gray-300 bg-gray-100 text-gray-700 transition flex items-center justify-center gap-2";
+                submitBtn.className = "bg-whatsapp hover:opacity-90 text-white font-bold py-3 px-6 rounded-full shadow-lg transition flex items-center gap-2 text-base";
+                submitBtn.innerText = "📲 Αποστολή (WhatsApp)";
+            }
         }
 
-        function calculateTotal() {
+        function changeQty(btn, delta) {
+            const qtySpan = btn.parentElement.querySelector('.qty-val');
+            let qty = parseInt(qtySpan.innerText) + delta;
+            if (qty < 0) qty = 0;
+            qtySpan.innerText = qty;
+            recalculateTotal();
+        }
+
+        function recalculateTotal() {
             let total = 0;
             document.querySelectorAll('.menu-item').forEach(item => {
-                const id = item.getAttribute('data-id');
-                const price = parseFloat(item.getAttribute('data-price'));
-                const qty = cart[id] || 0;
+                const price = parseFloat(item.dataset.price);
+                const qty = parseInt(item.querySelector('.qty-val').innerText);
                 total += price * qty;
             });
-            document.getElementById('totalPrice').innerText = total.toFixed(2) + ' €';
+            document.getElementById('totalDisplay').innerText = total.toFixed(2).replace('.', ',') + ' €';
         }
 
-        function processOrder() {
+        function filterMenu() {
+            const q = document.getElementById('searchInput').value.toLowerCase();
+            document.querySelectorAll('.menu-item').forEach(item => {
+                const name = item.dataset.name.toLowerCase();
+                item.style.display = name.includes(q) ? 'flex' : 'none';
+            });
+        }
+
+        function buildOrderText() {
             const tableNo = document.getElementById('tableNo').value.trim();
             const name = document.getElementById('customerName').value.trim();
-            const orderType = document.getElementById('orderType').value;
-
-            if (!tableNo) {
-                alert('Παρακαλούμε συμπληρώστε τον αριθμό τραπεζιού σας!');
-                document.getElementById('tableNo').focus();
-                return;
-            }
-
-            let hasItems = false;
-            let totalSum = 0;
-
-            let orderText = `🌿 ΝΕΑ ΠΑΡΑΓΓΕΛΙΑ - ΠΛΑΤΙΑ ΣΤΡΑΤΑ\n`;
-            orderText += `📍 Τραπέζι: No ${tableNo}\n`;
-            if (name) orderText += `👤 Πελάτης: ${name}\n`;
-            orderText += `------------------------------\n`;
+            
+            let itemsText = '';
+            let total = 0;
 
             document.querySelectorAll('.menu-item').forEach(item => {
-                const id = item.getAttribute('data-id');
-                const itemName = item.getAttribute('data-name');
-                const price = parseFloat(item.getAttribute('data-price'));
-                const qty = cart[id] || 0;
-
+                const qty = parseInt(item.querySelector('.qty-val').innerText);
                 if (qty > 0) {
-                    hasItems = true;
-                    const itemTotal = price * qty;
-                    totalSum += itemTotal;
-                    orderText += `• ${qty}x ${itemName} (${itemTotal.toFixed(2)}€)\n`;
+                    const itemName = item.dataset.name;
+                    const price = parseFloat(item.dataset.price);
+                    const subtotal = price * qty;
+                    total += subtotal;
+                    itemsText += `• ${qty}x ${itemName} (${subtotal.toFixed(2)}€)\n`;
                 }
             });
 
-            if (!hasItems) {
-                alert('Δεν έχετε επιλέξει κανένα προϊόν από τον κατάλογο!');
-                return;
+            if (!tableNo) {
+                alert('Παρακαλούμε συμπληρώστε τον αριθμό τραπεζιού!');
+                document.getElementById('tableNo').focus();
+                return null;
             }
 
-            orderText += `------------------------------\n`;
-            orderText += `💰 Σύνολο: ${totalSum.toFixed(2)} €`;
+            if (!itemsText) {
+                alert('Παρακαλούμε επιλέξτε τουλάχιστον ένα πιάτο ή ποτό!');
+                return null;
+            }
 
-            const encodedText = encodeURIComponent(orderText);
+            let msg = `🌿 ΠΑΡΑΓΓΕΛΙΑ - ΠΛΑΤΙΑ ΣΤΡΑΤΑ\n`;
+            msg += `📍 Τραπέζι: No ${tableNo}\n`;
+            if (name) msg += `👤 Όνομα: ${name}\n`;
+            msg += `------------------------------\n`;
+            msg += itemsText;
+            msg += `------------------------------\n`;
+            msg += `💰 Σύνολο: ${total.toFixed(2)}€`;
 
-            if (orderType === 'viber') {
-                // Διορθωμένο Viber deep link που υποστηρίζεται σε κινητά Android/iOS
-                window.location.href = `viber://send?number=%2B${OWNER_PHONE}&text=${encodedText}`;
+            return msg;
+        }
+
+        function handleCheckout() {
+            const msg = buildOrderText();
+            if (!msg) return;
+
+            currentOrderText = msg;
+
+            if (selectedApp === 'whatsapp') {
+                const url = `https://wa.me/${TARGET_PHONE}?text=${encodeURIComponent(msg)}`;
+                window.open(url, '_blank');
             } else {
-                // WhatsApp Link
-                window.open(`https://wa.me/${OWNER_PHONE}?text=${encodedText}`, '_blank');
+                // Show Viber Smart Modal for seamless reliable ordering
+                document.getElementById('modalOrderPreview').innerText = msg;
+                document.getElementById('viberModal').classList.remove('hidden');
             }
         }
 
-        document.getElementById('orderType').addEventListener('change', function(e) {
-            const btn = document.getElementById('sendBtn');
-            if (e.target.value === 'whatsapp') {
-                btn.className = 'btn-send btn-whatsapp';
+        function copyAndOpenViber() {
+            // Copy text to clipboard safely
+            const textToCopy = currentOrderText;
+            if (navigator.clipboard && navigator.clipboard.writeText) {
+                navigator.clipboard.writeText(textToCopy);
             } else {
-                btn.className = 'btn-send btn-viber';
+                const dummy = document.createElement("textarea");
+                document.body.appendChild(dummy);
+                dummy.value = textToCopy;
+                dummy.select();
+                document.execCommand("copy");
+                document.body.removeChild(dummy);
             }
-        });
+
+            alert('✅ Η παραγγελία αντιγράφηκε! Επικολλήστε τη (Paste) στο chat του Viber.');
+            
+            // Try standard viber schemes sequentially
+            window.location.href = `viber://chat?number=%2B${TARGET_PHONE}`;
+            setTimeout(() => {
+                window.location.href = `viber://send?number=%2B${TARGET_PHONE}`;
+            }, 800);
+        }
+
+        function tryDirectViberScheme() {
+            const enc = encodeURIComponent(currentOrderText);
+            window.location.href = `viber://send?number=%2B${TARGET_PHONE}&text=${enc}`;
+        }
+
+        function closeModal() {
+            document.getElementById('viberModal').classList.add('hidden');
+        }
     </script>
 </body>
 </html>
