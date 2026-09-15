@@ -3,36 +3,59 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Πλατιά Στράτα - Ψηφιακός Κατάλογος & Παραγγελία</title>
+    <title>Πλατιά Στράτα - Platia Strata | Digital Menu</title>
     <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2c4c38;      /* Βαθύ πράσινο της ελιάς */
-            --accent: #b85b34;       /* Terracotta / Πήλινο */
-            --bg: #fcf8f2;           /* Χρώμα παπύρου / ζαχαρί */
+            --primary: #2c4c38;
+            --accent: #b85b34;
+            --bg: #fcf8f2;
             --card: #ffffff;
             --border: #e2d7c5;
             --text-dark: #2b2b2b;
-            --viber-color: #7360f2;
             --whatsapp-color: #25D366;
             --sms-color: #007aff;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
-        body { font-family: 'Roboto', sans-serif; background: var(--bg); color: var(--text-dark); padding-bottom: 120px; }
+        body { font-family: 'Roboto', sans-serif; background: var(--bg); color: var(--text-dark); padding-bottom: 140px; }
 
         header {
             background: var(--primary);
             color: #fff;
             text-align: center;
-            padding: 2rem 1rem 1.2rem;
+            padding: 1.5rem 1rem 1.2rem;
             border-bottom: 4px solid var(--accent);
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        header h1 { font-family: 'GFS Didot', serif; font-size: 2.5rem; color: #f7e7ce; letter-spacing: 1px; }
-        header p.subtitle { font-size: 1rem; opacity: 0.9; margin-top: 0.2rem; }
+        header h1 { font-family: 'GFS Didot', serif; font-size: 2.3rem; color: #f7e7ce; }
+        header p.subtitle { font-size: 0.95rem; opacity: 0.9; margin-top: 0.2rem; }
         header p.info { font-size: 0.85rem; opacity: 0.8; margin-top: 0.3rem; }
+
+        /* LANGUAGE FLAGS SELECTOR */
+        .flags-bar {
+            display: flex;
+            justify-content: center;
+            gap: 0.6rem;
+            margin-top: 0.9rem;
+        }
+
+        .flag-btn {
+            background: rgba(255, 255, 255, 0.15);
+            border: 2px solid transparent;
+            font-size: 1.6rem;
+            padding: 0.2rem 0.5rem;
+            border-radius: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            line-height: 1;
+        }
+
+        .flag-btn.active, .flag-btn:hover {
+            background: var(--accent);
+            border-color: #fff;
+            transform: scale(1.15);
+        }
 
         .container { max-width: 800px; margin: 0 auto; padding: 1.2rem 1rem; }
 
@@ -42,7 +65,6 @@
             border-radius: 12px;
             padding: 1.2rem;
             margin-bottom: 1.5rem;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
         }
 
         .form-grid {
@@ -69,24 +91,59 @@
             border: 1px solid var(--border);
             border-radius: 8px;
             font-size: 1rem;
-            outline: none;
             background: #fff;
+        }
+
+        .categories-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+            gap: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .cat-card-btn {
+            background: var(--card);
+            border: 2px solid var(--border);
+            border-radius: 12px;
+            padding: 1.1rem 0.6rem;
+            text-align: center;
+            font-size: 0.95rem;
+            font-weight: 700;
+            color: var(--primary);
+            cursor: pointer;
+            box-shadow: 0 3px 6px rgba(0,0,0,0.04);
+            transition: all 0.2s ease;
+        }
+
+        .cat-card-btn:hover, .cat-card-btn:active {
+            border-color: var(--accent);
+            background: #fdf5ec;
+        }
+
+        .btn-back {
+            display: inline-flex;
+            align-items: center;
+            background: #eadecc;
+            color: var(--primary);
+            border: none;
+            padding: 0.4rem 0.9rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            cursor: pointer;
+            margin-bottom: 1rem;
         }
 
         .category-title {
             font-family: 'GFS Didot', serif;
             color: var(--primary);
             font-size: 1.7rem;
-            margin: 2rem 0 1rem;
+            margin-bottom: 1rem;
             border-bottom: 2px solid var(--accent);
             padding-bottom: 0.3rem;
         }
 
-        .menu-grid {
-            display: grid;
-            grid-template-columns: 1fr;
-            gap: 0.8rem;
-        }
+        .menu-grid { display: grid; grid-template-columns: 1fr; gap: 0.8rem; }
 
         .menu-item {
             background: var(--card);
@@ -96,7 +153,6 @@
             display: flex;
             justify-content: space-between;
             align-items: center;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
         .item-info { flex: 1; padding-right: 0.8rem; }
@@ -121,6 +177,32 @@
         }
 
         .qty-num { font-weight: 700; font-size: 1.1rem; min-width: 24px; text-align: center; }
+
+        .summary-card {
+            background: var(--card);
+            border: 2px solid var(--accent);
+            border-radius: 12px;
+            padding: 1.2rem;
+            margin-top: 2rem;
+        }
+
+        .summary-header {
+            font-family: 'GFS Didot', serif;
+            font-size: 1.4rem;
+            color: var(--accent);
+            border-bottom: 1px solid var(--border);
+            padding-bottom: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .summary-list { list-style: none; }
+        .summary-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.6rem 0;
+            border-bottom: 1px dashed var(--border);
+        }
 
         .cart-bar {
             position: fixed;
@@ -147,269 +229,498 @@
             font-weight: 700;
             cursor: pointer;
         }
-
-        .btn-viber { background: var(--viber-color); }
         .btn-whatsapp { background: var(--whatsapp-color); }
         .btn-sms { background: var(--sms-color); }
 
-        /* Modal Viber */
-        .modal-overlay {
-            display: none;
-            position: fixed;
-            top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(0,0,0,0.7);
-            z-index: 2000;
-            justify-content: center;
-            align-items: center;
-            padding: 1rem;
-        }
-
-        .modal-box {
-            background: #fff;
-            border-radius: 12px;
-            padding: 1.5rem;
-            max-width: 450px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .modal-box h3 { color: var(--viber-color); margin-bottom: 0.8rem; }
-        .modal-box p { font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.4; }
-        .step-badge {
-            background: #f0ebff;
-            color: var(--viber-color);
-            padding: 0.4rem 0.8rem;
-            border-radius: 6px;
-            font-weight: bold;
-            display: inline-block;
-            margin-bottom: 1rem;
-        }
-        .modal-action-btn {
-            display: block;
-            width: 100%;
-            padding: 0.8rem;
-            margin-bottom: 0.6rem;
-            border-radius: 8px;
-            border: none;
-            font-weight: bold;
-            font-size: 1rem;
-            text-decoration: none;
-            color: #fff;
-            cursor: pointer;
-        }
+        .view-section { display: none; }
+        .view-section.active { display: block; }
     </style>
 </head>
 <body>
 
     <header>
         <h1>Πλατιά Στράτα</h1>
-        <p class="subtitle">Παραδοσιακό Καφενείο - Ταβέρνα - Ρακάδικο</p>
-        <p class="info">Έξω Μουλιανά Σητείας | Ψηφιακή Παραγγελία</p>
+        <p class="subtitle" id="ui-subtitle">Παραδοσιακό Καφενείο - Ταβέρνα - Ρακάδικο</p>
+        <p class="info" id="ui-location">Έξω Μουλιανά Σητείας | Ψηφιακή Παραγγελία</p>
+        
+        <!-- FLAGS SELECTOR -->
+        <div class="flags-bar">
+            <button class="flag-btn active" onclick="setLanguage('el', this)" title="Ελληνικά">🇬🇷</button>
+            <button class="flag-btn" onclick="setLanguage('en', this)" title="English">🇬🇧</button>
+            <button class="flag-btn" onclick="setLanguage('de', this)" title="Deutsch">🇩🇪</button>
+            <button class="flag-btn" onclick="setLanguage('fr', this)" title="Français">🇫🇷</button>
+            <button class="flag-btn" onclick="setLanguage('pl', this)" title="Polski">🇵🇱</button>
+        </div>
     </header>
 
     <div class="container">
-        <!-- Στοιχεία Τραπεζιού & Επιλογή Αποστολής -->
+        <!-- FORM -->
         <div class="table-card">
             <div class="form-grid">
                 <div class="form-group">
-                    <label for="tableNo">Αριθμός Τραπεζιού *</label>
-                    <input type="number" id="tableNo" placeholder="π.χ. 4" min="1" required>
+                    <label for="tableNo" id="ui-lbl-table">Αριθμός Τραπεζιού *</label>
+                    <input type="number" id="tableNo" placeholder="e.g. 4" min="1" required>
                 </div>
                 <div class="form-group">
-                    <label for="customerName">Όνομα Πελάτη (Προαιρετικό)</label>
-                    <input type="text" id="customerName" placeholder="π.χ. Γιώργος">
+                    <label for="customerName" id="ui-lbl-name">Όνομα Πελάτη (Προαιρετικό)</label>
+                    <input type="text" id="customerName" placeholder="e.g. John">
                 </div>
             </div>
             <div class="form-group" style="margin-top: 0.8rem;">
-                <label for="orderType">Τρόπος Αποστολής *</label>
+                <label for="orderType" id="ui-lbl-sendtype">Τρόπος Αποστολής *</label>
                 <select id="orderType">
-                    <option value="viber">Viber</option>
                     <option value="whatsapp">WhatsApp</option>
-                    <option value="sms">SMS (Μήνυμα)</option>
+                    <option value="sms">SMS</option>
                 </select>
             </div>
         </div>
 
-        <!-- ΣΑΛΑΤΕΣ -->
-        <div class="category-title">🥗 Σαλάτες</div>
-        <div class="menu-grid">
-            <div class="menu-item" data-id="1" data-name="Χωριάτικη" data-price="6.00">
-                <div class="item-info"><div class="item-title">Χωριάτικη</div><div class="item-price">6,00 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('1', -1)">-</button><span class="qty-num" id="qty-1">0</span><button class="btn-qty" onclick="updateQty('1', 1)">+</button></div>
+        <!-- HOME VIEW -->
+        <div id="homeView" class="view-section active">
+            <h2 style="font-family:'GFS Didot', serif; color:var(--primary); margin-bottom:1rem; text-align:center;" id="ui-choose-cat">Επιλέξτε Κατηγορία</h2>
+            
+            <div class="categories-grid">
+                <div class="cat-card-btn" onclick="showCategory('salads')">🥗<br><span id="cat-salads">Σαλάτες</span></div>
+                <div class="cat-card-btn" onclick="showCategory('appetizers')">🧆<br><span id="cat-appetizers">Ορεκτικά</span></div>
+                <div class="cat-card-btn" onclick="showCategory('omelettes')">🍳<br><span id="cat-omelettes">Ομελέτες & Πίτσες</span></div>
+                <div class="cat-card-btn" onclick="showCategory('grill')">🥩<br><span id="cat-grill">Της Ώρας</span></div>
+                <div class="cat-card-btn" onclick="showCategory('spit')">🍖<br><span id="cat-spit">Σούβλας</span></div>
+                <div class="cat-card-btn" onclick="showCategory('drinks')">🍺<br><span id="cat-drinks">Ποτά & Ρακές</span></div>
+                <div class="cat-card-btn" onclick="showCategory('coffee')">☕<br><span id="cat-coffee">Καφέδες</span></div>
             </div>
-            <div class="menu-item" data-id="2" data-name="Σύγγρειω" data-price="4.00">
-                <div class="item-info"><div class="item-title">Σύγγρειω</div><div class="item-price">4,00 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('2', -1)">-</button><span class="qty-num" id="qty-2">0</span><button class="btn-qty" onclick="updateQty('2', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="3" data-name="Λάχανο - Καρότο" data-price="4.00">
-                <div class="item-info"><div class="item-title">Λάχανο - Καρότο</div><div class="item-price">4,00 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('3', -1)">-</button><span class="qty-num" id="qty-3">0</span><button class="btn-qty" onclick="updateQty('3', 1)">+</button></div>
+
+            <!-- SUMMARY -->
+            <div class="summary-card">
+                <div class="summary-header" id="ui-summary-title">📋 Σύνοψη Παραγγελίας</div>
+                <div id="summaryContent" style="color:var(--text-dark); opacity:0.7; font-size:0.95rem; text-align:center; padding:1rem 0;">
+                    Δεν έχετε προσθέσει ακόμα προϊόντα στο καλάθι.
+                </div>
             </div>
         </div>
 
-        <!-- ΟΡΕΚΤΙΚΑ -->
-        <div class="category-title">🧆 Ορεκτικά & Μεζέδες</div>
-        <div class="menu-grid">
-            <div class="menu-item" data-id="4" data-name="Τζατζίκι" data-price="4.50">
-                <div class="item-info"><div class="item-title">Τζατζίκι</div><div class="item-price">4,50 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('4', -1)">-</button><span class="qty-num" id="qty-4">0</span><button class="btn-qty" onclick="updateQty('4', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="5" data-name="Ξύγαλο" data-price="5.50">
-                <div class="item-info"><div class="item-title">Ξύγαλο</div><div class="item-price">5,50 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('5', -1)">-</button><span class="qty-num" id="qty-5">0</span><button class="btn-qty" onclick="updateQty('5', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="8" data-name="Ντάκος" data-price="5.50">
-                <div class="item-info"><div class="item-title">Ντάκος</div><div class="item-price">5,50 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('8', -1)">-</button><span class="qty-num" id="qty-8">0</span><button class="btn-qty" onclick="updateQty('8', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="11" data-name="Πατάτες τηγανιτές" data-price="5.50">
-                <div class="item-info"><div class="item-title">Πατάτες τηγανιτές</div><div class="item-price">5,50 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('11', -1)">-</button><span class="qty-num" id="qty-11">0</span><button class="btn-qty" onclick="updateQty('11', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="13" data-name="Στάκα με αυγά" data-price="5.00">
-                <div class="item-info"><div class="item-title">Στάκα με αυγά</div><div class="item-price">5,00 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('13', -1)">-</button><span class="qty-num" id="qty-13">0</span><button class="btn-qty" onclick="updateQty('13', 1)">+</button></div>
-            </div>
-        </div>
-
-        <!-- ΤΗΣ ΩΡΑΣ -->
-        <div class="category-title">🥩 Της Ώρας</div>
-        <div class="menu-grid">
-            <div class="menu-item" data-id="25" data-name="Σουβλάκι χοιρινό (τεμ.)" data-price="2.20">
-                <div class="item-info"><div class="item-title">Σουβλάκι χοιρινό (τεμάχιο)</div><div class="item-price">2,20 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('25', -1)">-</button><span class="qty-num" id="qty-25">0</span><button class="btn-qty" onclick="updateQty('25', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="36" data-name="Παιδάκια αρνίσια μερίδα" data-price="14.00">
-                <div class="item-info"><div class="item-title">Παιδάκια αρνίσια μερίδα</div><div class="item-price">14,00 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('36', -1)">-</button><span class="qty-num" id="qty-36">0</span><button class="btn-qty" onclick="updateQty('36', 1)">+</button></div>
-            </div>
-        </div>
-
-        <!-- ΠΟΤΑ -->
-        <div class="category-title">🍺 Ποτά & Ρακές</div>
-        <div class="menu-grid">
-            <div class="menu-item" data-id="50" data-name="Ρακή Καραφάκι Διπλό" data-price="5.00">
-                <div class="item-info"><div class="item-title">Ρακή Καραφάκι Διπλό</div><div class="item-price">5,00 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('50', -1)">-</button><span class="qty-num" id="qty-50">0</span><button class="btn-qty" onclick="updateQty('50', 1)">+</button></div>
-            </div>
-            <div class="menu-item" data-id="47" data-name="Μπίρα Mythos / Alfa" data-price="3.50">
-                <div class="item-info"><div class="item-title">Μπίρα Mythos / Alfa</div><div class="item-price">3,50 €</div></div>
-                <div class="item-controls"><button class="btn-qty" onclick="updateQty('47', -1)">-</button><span class="qty-num" id="qty-47">0</span><button class="btn-qty" onclick="updateQty('47', 1)">+</button></div>
-            </div>
+        <!-- CATEGORY VIEW -->
+        <div id="categoryView" class="view-section">
+            <button class="btn-back" onclick="showHome()" id="ui-btn-back">← Πίσω στις Κατηγορίες</button>
+            <h2 class="category-title" id="currentCategoryTitle">Κατηγορία</h2>
+            <div class="menu-grid" id="categoryItemsContainer"></div>
         </div>
     </div>
 
-    <!-- Μπάρα Παραγγελίας -->
+    <!-- CART BAR -->
     <div class="cart-bar">
         <div>
-            <div class="cart-total-label">Σύνολο Παραγγελίας:</div>
+            <div class="cart-total-label" id="ui-cart-total">Σύνολο Παραγγελίας:</div>
             <div class="cart-total-price" id="totalPrice">0.00 €</div>
         </div>
-        <button class="btn-send btn-viber" id="sendBtn" onclick="processOrder()">📲 Αποστολή</button>
-    </div>
-
-    <!-- Modal Viber -->
-    <div class="modal-overlay" id="viberModal">
-        <div class="modal-box">
-            <h3>💜 Αποστολή μέσω Viber</h3>
-            <div class="step-badge">✅ Η παραγγελία αντιγράφηκε!</div>
-            <p>Πατήστε το κουμπί για να ανοίξει η συνομιλία στο Viber και μετά κάντε <b>«Επικόλληση» (Paste)</b> στο πεδίο κειμένου.</p>
-            <a href="https://viber.click/306976128413" target="_blank" class="modal-action-btn" style="background: var(--viber-color);">1. Άνοιγμα Viber Chat (6976128413)</a>
-            <button onclick="closeModal()" class="modal-action-btn" style="background: #666;">Κλείσιμο</button>
-        </div>
+        <button class="btn-send btn-whatsapp" id="sendBtn" onclick="processOrder()">📲 <span id="ui-btn-send">Αποστολή</span></button>
     </div>
 
     <script>
         const OWNER_PHONE = "306976128413";
+        let currentLang = 'el';
+        let currentCatKey = '';
+
+        // DICTIONARY FOR UI IN 5 LANGUAGES
+        const i18nUI = {
+            el: {
+                subtitle: "Παραδοσιακό Καφενείο - Ταβέρνα - Ρακάδικο",
+                location: "Έξω Μουλιανά Σητείας | Ψηφιακή Παραγγελία",
+                table: "Αριθμός Τραπεζιού *",
+                name: "Όνομα Πελάτη (Προαιρετικό)",
+                sendtype: "Τρόπος Αποστολής *",
+                chooseCat: "Επιλέξτε Κατηγορία",
+                back: "← Πίσω στις Κατηγορίες",
+                summaryTitle: "📋 Σύνοψη Παραγγελίας",
+                summaryEmpty: "Δεν έχετε προσθέσει ακόμα προϊόντα στο καλάθι.",
+                cartTotal: "Σύνολο Παραγγελίας:",
+                btnSend: "Αποστολή",
+                alertTable: "Παρακαλούμε συμπληρώστε τον αριθμό τραπεζιού!",
+                alertItems: "Δεν έχετε επιλέξει κανένα προϊόν!",
+                headerOrder: "🌿 ΠΛΑΤΙΑ ΣΤΡΑΤΑ - Τραπέζι No",
+                headerCustomer: "👤 Πελάτης:"
+            },
+            en: {
+                subtitle: "Traditional Cafe - Tavern - Raki Bar",
+                location: "Exo Mouliana Sitia | Digital Menu",
+                table: "Table Number *",
+                name: "Customer Name (Optional)",
+                sendtype: "Send Via *",
+                chooseCat: "Select Category",
+                back: "← Back to Categories",
+                summaryTitle: "📋 Order Summary",
+                summaryEmpty: "Your cart is currently empty.",
+                cartTotal: "Total Amount:",
+                btnSend: "Send Order",
+                alertTable: "Please enter your Table Number!",
+                alertItems: "Your cart is empty!",
+                headerOrder: "🌿 PLATIA STRATA - Table No",
+                headerCustomer: "👤 Customer:"
+            },
+            de: {
+                subtitle: "Traditionelle Taverne - Café - Raki Bar",
+                location: "Exo Mouliana Sitia | Digitale Speisekarte",
+                table: "Tischnummer *",
+                name: "Name des Gastes (Optional)",
+                sendtype: "Senden über *",
+                chooseCat: "Kategorie Wählen",
+                back: "← Zurück zu den Kategorien",
+                summaryTitle: "📋 Bestellübersicht",
+                summaryEmpty: "Ihr Warenkorb ist noch leer.",
+                cartTotal: "Gesamtsumme:",
+                btnSend: "Bestellen",
+                alertTable: "Bitte geben Sie Ihre Tischnummer ein!",
+                alertItems: "Ihr Warenkorb ist leer!",
+                headerOrder: "🌿 PLATIA STRATA - Tisch Nr.",
+                headerCustomer: "👤 Gast:"
+            },
+            fr: {
+                subtitle: "Café Traditionnel - Taverne - Bar à Raki",
+                location: "Exo Mouliana Sitia | Menu Numérique",
+                table: "Numéro de Table *",
+                name: "Nom du Client (Optionnel)",
+                sendtype: "Envoyer Via *",
+                chooseCat: "Sélectionnez une Catégorie",
+                back: "← Retour aux Catégories",
+                summaryTitle: "📋 Résumé de la Commande",
+                summaryEmpty: "Votre panier est vide.",
+                cartTotal: "Montant Total:",
+                btnSend: "Envoyer",
+                alertTable: "Veuillez entrer votre numéro de table!",
+                alertItems: "Votre panier est vide!",
+                headerOrder: "🌿 PLATIA STRATA - Table N°",
+                headerCustomer: "👤 Client:"
+            },
+            pl: {
+                subtitle: "Tradycyjna Kawiarnia - Tawerna - Raki Bar",
+                location: "Exo Mouliana Sitia | Cyfrowe Menu",
+                table: "Numer Stolika *",
+                name: "Imię Klienta (Opcjonalnie)",
+                sendtype: "Wyślij Przez *",
+                chooseCat: "Wybierz Kategorię",
+                back: "← Powrót do Kategorii",
+                summaryTitle: "📋 Podsumowanie Zamówienia",
+                summaryEmpty: "Twój koszyk jest pusty.",
+                cartTotal: "Suma Całkowita:",
+                btnSend: "Wyślij",
+                alertTable: "Proszę podać numer stolika!",
+                alertItems: "Twój koszyk jest pusty!",
+                headerOrder: "🌿 PLATIA STRATA - Stolik Nr",
+                headerCustomer: "👤 Klient:"
+            }
+        };
+
+        // MENU DATABASE IN 5 LANGUAGES
+        const menuData = {
+            salads: {
+                catNames: { el: "🥗 Σαλάτες", en: "🥗 Salads", de: "🥗 Salate", fr: "🥗 Salades", pl: "🥗 Sałatki" },
+                items: [
+                    { id: 1, price: 6.00, name: { el: "Χωριάτικη", en: "Greek Salad", de: "Griechischer Salat", fr: "Salade Grecque", pl: "Sałatka Grecka" } },
+                    { id: 2, price: 4.00, name: { el: "Μαρούλι", en: "Lettuce Salad", de: "Lattichsalat", fr: "Salade de Laitue", pl: "Sałata Zielona" } },
+                    { id: 3, price: 4.00, name: { el: "Λάχανο - Καρότο", en: "Cabbage & Carrot", de: "Kohl & Karotten", fr: "Chou & Carotte", pl: "Kapusta & Marchewka" } }
+                ]
+            },
+            appetizers: {
+                catNames: { el: "🧆 Ορεκτικά", en: "🧆 Appetizers", de: "🧆 Vorspeisen", fr: "🧆 Entrées", pl: "🧆 Przystawki" },
+                items: [
+                    { id: 4, price: 4.50, name: { el: "Τζατζίκι", en: "Tzatziki", de: "Tzatziki", fr: "Tzatziki", pl: "Tzatziki" } },
+                    { id: 5, price: 5.50, name: { el: "Ξύγαλο", en: "Xygalo Cheese", de: "Xygalo Käse", fr: "Fromage Xygalo", pl: "Ser Xygalo" } },
+                    { id: 6, price: 7.00, name: { el: "Τυροκροκέτες", en: "Cheese Croquettes", de: "Käsekroketten", fr: "Croquettes de Fromage", pl: "Krokiety Serowe" } },
+                    { id: 7, price: 7.00, name: { el: "Ντολμαδάκια", en: "Stuffed Vine Leaves", de: "Gefüllte Weinblätter", fr: "Feuilles de Vigne Farcies", pl: "Gołąbki w Liściach Winogron" } },
+                    { id: 8, price: 5.50, name: { el: "Ντάκος", en: "Cretan Dakos", de: "Kretischer Dakos", fr: "Dakos Crétois", pl: "Dakos Kreteński" } },
+                    { id: 9, price: 4.50, name: { el: "Φάβα", en: "Yellow Split Pea Puree (Fava)", de: "Fava-Püree", fr: "Purée de Fava", pl: "Purée z Żółtego Grochu (Fava)" } },
+                    { id: 10, price: 7.00, name: { el: "Μπερκί Μεζέ", en: "Bekri Meze (Spicy Pork Stew)", de: "Bekri Meze", fr: "Bekri Meze", pl: "Bekri Meze (Gulasz)" } },
+                    { id: 11, price: 5.50, name: { el: "Πατάτες τηγανιτές", en: "French Fries", de: "Pommes Frites", fr: "Frites", pl: "Frytki" } },
+                    { id: 12, price: 5.00, name: { el: "Κολοκυθάκια τηγανητά", en: "Fried Zucchini", de: "Frittierte Zucchini", fr: "Courgettes Frites", pl: "Smażona Cukinia" } },
+                    { id: 13, price: 5.00, name: { el: "Στάκα με αυγά", en: "Staka Butter with Eggs", de: "Staka-Butter mit Eiern", fr: "Beurre Staka aux Œufs", pl: "Masło Staka z Jajkami" } },
+                    { id: 14, price: 5.00, name: { el: "Νεράτη", en: "Nerati Pie", de: "Nerati-Kuchen", fr: "Tarte Nerati", pl: "PlPlacek Nerati" } },
+                    { id: 15, price: 5.00, name: { el: "Τυροαπιτάκια", en: "Small Cheese Pies", de: "Kleine Käsetaschen", fr: "Feuilletés au Fromage", pl: "Pierożki z Serem" } },
+                    { id: 16, price: 5.00, name: { el: "Λαχανοπιτάκια", en: "Small Herb Pies", de: "Kleine Kräutertaschen", fr: "Feuilletés aux Herbes", pl: "Pierożki z Ziołami" } },
+                    { id: 17, price: 4.50, name: { el: "Φέτα λαδορίγανη", en: "Feta Cheese with Olive Oil & Oregano", de: "Feta-Käse mit Olivenöl & Oregano", fr: "Féta à l'Huile d'Olive et Origan", pl: "Feta z Oliwą i Oregano" } },
+                    { id: 18, price: 7.50, name: { el: "Λουκάνικο Χωριάτικο", en: "Traditional Sausage", de: "Bauernsalami / Wurst", fr: "Saucisse Traditionnelle", pl: "Kiełbasa Wiejska" } }
+                ]
+            },
+            omelettes: {
+                catNames: { el: "🍳 Ομελέτες & Πίτσες", en: "🍳 Omelettes & Pizzas", de: "🍳 Omeletts & Pizzas", fr: "🍳 Omelettes & Pizzas", pl: "🍳 Omelety & Pizza" },
+                items: [
+                    { id: 19, price: 10.00, name: { el: "Ομελέτα Σπέσιαλ Μεγάλη", en: "Special Omelette Large", de: "Spezial-Omelett Groß", fr: "Grande Omelette Spéciale", pl: "Omlet Specjalny Duży" } },
+                    { id: 20, price: 8.00, name: { el: "Ομελέτα Σπέσιαλ Μικρή", en: "Special Omelette Small", de: "Spezial-Omelett Klein", fr: "Petite Omelette Spéciale", pl: "Omlet Specjalny Mały" } },
+                    { id: 21, price: 2.00, name: { el: "Τοστ", en: "Toast Sandwich", de: "Toast-Sandwich", fr: "Sandwich Toast", pl: "Tost" } },
+                    { id: 22, price: 10.00, name: { el: "Πίτσα Σπέσιαλ μεγάλη", en: "Special Pizza Large", de: "Spezial-Pizza Groß", fr: "Grande Pizza Spéciale", pl: "Pizza Specjalna Duża" } },
+                    { id: 23, price: 8.00, name: { el: "Πίτσα Σπέσιαλ μικρή", en: "Special Pizza Small", de: "Spezial-Pizza Klein", fr: "Petite Pizza Spéciale", pl: "Pizza Specjalna Mała" } },
+                    { id: 24, price: 15.00, name: { el: "Πίτσα Γίγας", en: "Giant Pizza", de: "Riesenpizza", fr: "Pizza Géante", pl: "Pizza Gigant" } }
+                ]
+            },
+            grill: {
+                catNames: { el: "🥩 Της Ώρας", en: "🥩 Grilled Items", de: "🥩 Vom Grill", fr: "🥩 Grillades", pl: "🥩 Dania z Grilla" },
+                items: [
+                    { id: 25, price: 2.20, name: { el: "Σουβλάκι χοιρινό (τεμάχιο)", en: "Pork Souvlaki (skewer)", de: "Schweine-Souvlaki (Spieß)", fr: "Souvlaki de Porc (brochette)", pl: "Szaszłyk Wieprzowy" } },
+                    { id: 26, price: 2.50, name: { el: "Σουβλάκι κοτόπουλο (τεμάχιο)", en: "Chicken Souvlaki (skewer)", de: "Hähnchen-Souvlaki (Spieß)", fr: "Souvlaki de Poulet (brochette)", pl: "Szaszłyk z Kurczaka" } },
+                    { id: 27, price: 10.00, name: { el: "Πανσέτα 1kg", en: "Pork Belly (Pancetta) 1kg", de: "Schweinebauch 1kg", fr: "Poitrine de Porc 1kg", pl: "Boczek 1kg" } },
+                    { id: 28, price: 10.00, name: { el: "Πανσέτα μερίδα", en: "Pork Belly Portion", de: "Schweinebauch Portion", fr: "Portion Poitrine de Porc", pl: "Porcja Boczku" } },
+                    { id: 29, price: 15.00, name: { el: "Παιδάκια κοτόπουλο 1kg", en: "Chicken Chops 1kg", de: "Hähnchenkoteletts 1kg", fr: "Côtelettes de Poulet 1kg", pl: "Kawałki Kurczaka 1kg" } },
+                    { id: 30, price: 8.00, name: { el: "Παιδάκια κοτόπουλο μερίδα", en: "Chicken Chops Portion", de: "Hähnchenkoteletts Portion", fr: "Portion Côtelettes de Poulet", pl: "Porcja Kurczaka" } },
+                    { id: 31, price: 9.00, name: { el: "Μπριζόλα χοιρινή", en: "Pork Chop", de: "Schweinekotelett", fr: "Côte de Porc", pl: "Kotlet Wieprzowy" } },
+                    { id: 32, price: 10.00, name: { el: "Κοτόπουλο φιλέτο", en: "Chicken Fillet", de: "Hähnchenbrustfilet", fr: "Filet de Poulet", pl: "Filet z Kurczaka" } },
+                    { id: 33, price: 10.00, name: { el: "Μπιφτέκια μερίδα", en: "Beef Burgers Portion", de: "Frikadellen Portion", fr: "Portion Steaks Hachés", pl: "Burger Wołowy Porcja" } },
+                    { id: 34, price: 2.50, name: { el: "Κεμπάπ τεμάχιο", en: "Kebab (piece)", de: "Kebab (Stück)", fr: "Kebab (pièce)", pl: "Kebab (sztuka)" } },
+                    { id: 35, price: 10.00, name: { el: "Κεμπάπ μερίδα", en: "Kebab Portion", de: "Kebab Portion", fr: "Portion Kebab", pl: "Porcja Kebabu" } },
+                    { id: 36, price: 14.00, name: { el: "Παιδάκια αρνίσια μερίδα", en: "Lamb Chops Portion", de: "Lammkoteletts Portion", fr: "Portion Côtelettes d'Agneau", pl: "Zeberka Jagnięce Porcja" } },
+                    { id: 37, price: 14.00, name: { el: "Παιδάκια αρνίσια 1 kg", en: "Lamb Chops 1kg", de: "Lammkoteletts 1kg", fr: "Côtelettes d'Agneau 1kg", pl: "Żeberka Jagnięce 1kg" } },
+                    { id: 38, price: 20.00, name: { el: "Ποικιλία κρεατικών μικρή", en: "Mixed Grill Small", de: "Gemischter Grillteller Klein", fr: "Assortiment de Viandes Petit", pl: "Zestaw Mięs Mały" } },
+                    { id: 39, price: 40.00, name: { el: "Ποικιλία κρεατικών μεγάλη", en: "Mixed Grill Large", de: "Gemischter Grillteller Groß", fr: "Assortiment de Viandes Grand", pl: "Zestaw Mięs Duży" } }
+                ]
+            },
+            spit: {
+                catNames: { el: "🍖 Σούβλας", en: "🍖 Spit-Roasted", de: "🍖 Vom Spieß", fr: "🍖 À la Broche", pl: "🍖 Z Rożna" },
+                items: [
+                    { id: 40, price: 9.00, name: { el: "Κοντοσούβλι Κοτόπουλο μερίδα", en: "Kontosouvli Chicken Portion", de: "Hähnchen Kontosouvli", fr: "Poulet Kontosouvli", pl: "Kontosouvli z Kurczaka" } },
+                    { id: 41, price: 9.50, name: { el: "Κοντοσούβλι Χοιρινό μερίδα", en: "Kontosouvli Pork Portion", de: "Schweine Kontosouvli", fr: "Porc Kontosouvli", pl: "Kontosouvli Wieprzowe" } },
+                    { id: 42, price: 14.00, name: { el: "Αρνί μερίδα", en: "Spit Lamb Portion", de: "Lamm vom Spieß Portion", fr: "Agneau à la Broche Portion", pl: "Jagnięcina z Rożna Porcja" } },
+                    { id: 43, price: 36.00, name: { el: "Αρνί 1 kg", en: "Spit Lamb 1kg", de: "Lamm vom Spieß 1kg", fr: "Agneau à la Broche 1kg", pl: "Jagnięcina z Rożna 1kg" } },
+                    { id: 44, price: 8.50, name: { el: "Κότα", en: "Roasted Hen", de: "Gebratenes Huhn", fr: "Poule Rôtie", pl: "Kura Pieczona" } },
+                    { id: 45, price: 16.00, name: { el: "Κοτόπουλο ολόκληρο", en: "Whole Spit Chicken", de: "Ganzes Hähnchen", fr: "Poulet Entier", pl: "Cały Kurczak z Rożna" } },
+                    { id: 46, price: 10.00, name: { el: "Πανσέτα μερίδα", en: "Spit Pork Belly Portion", de: "Schweinebauch vom Spieß", fr: "Poitrine de Porc à la Broche", pl: "Boczek z Rożna Porcja" } }
+                ]
+            },
+            drinks: {
+                catNames: { el: "🍺 Ποτά & Ρακές", en: "🍺 Drinks & Raki", de: "🍺 Getränke & Raki", fr: "🍺 Boissons & Raki", pl: "🍺 Napoje & Raki" },
+                items: [
+                    { id: 47, price: 3.50, name: { el: "Μπίρα Amstel / Fix / Mythos / Alfa", en: "Beer Amstel / Fix / Mythos / Alfa", de: "Bier Amstel / Fix / Mythos / Alfa", fr: "Bière Amstel / Fix / Mythos / Alfa", pl: "Piwo Amstel / Fix / Mythos / Alfa" } },
+                    { id: 48, price: 4.00, name: { el: "Μπίρα Kaiser", en: "Beer Kaiser", de: "Bier Kaiser", fr: "Bière Kaiser", pl: "Piwo Kaiser" } },
+                    { id: 49, price: 4.00, name: { el: "Heineken / Mamos", en: "Beer Heineken / Mamos", de: "Bier Heineken / Mamos", fr: "Bière Heineken / Mamos", pl: "Piwo Heineken / Mamos" } },
+                    { id: 50, price: 5.00, name: { el: "Ρακή Καραφάκι Διπλό", en: "Cretan Raki Double Karafe", de: "Kretischer Raki Doppelt", fr: "Raki Crétois Double", pl: "Raki Kreteńskie Podwójne" } },
+                    { id: 51, price: 5.00, name: { el: "Κρασί Λευκό 500 ml", en: "White Wine 500ml", de: "Weißwein 500ml", fr: "Vin Blanc 500ml", pl: "Wino Białe 500ml" } },
+                    { id: 52, price: 8.50, name: { el: "Κρασί Λευκό 1 kg", en: "White Wine 1kg", de: "Weißwein 1kg", fr: "Vin Blanc 1kg", pl: "Wino Białe 1kg" } },
+                    { id: 53, price: 3.50, name: { el: "Κρασί Κόκκινο 500 ml", en: "Red Wine 500ml", de: "Rotwein 500ml", fr: "Vin Rouge 500ml", pl: "Wino Czerwone 500ml" } },
+                    { id: 54, price: 3.00, name: { el: "Κρασί Κόκκινο 1 kg", en: "Red Wine 1kg", de: "Rotwein 1kg", fr: "Vin Rouge 1kg", pl: "Wino Czerwone 1kg" } },
+                    { id: 55, price: 8.50, name: { el: "Φρέσκος χυμός Πορτοκάλι", en: "Fresh Orange Juice", de: "Frischer Orangensaft", fr: "Jus d'Orange Frais", pl: "Świeży Sok Pomarańczowy" } },
+                    { id: 56, price: 1.50, name: { el: "Αναψυκτικά (Pepsi/7up/Ήβη/Σόδα)", en: "Soft Drinks (Pepsi/7up/Soda)", de: "Erfrischungsgetränke", fr: "Boissons Gazeuses", pl: "Napoje Gazowane" } },
+                    { id: 57, price: 1.50, name: { el: "Coca Cola / Coca Cola Zero", en: "Coca Cola / Zero", de: "Coca Cola / Zero", fr: "Coca Cola / Zero", pl: "Coca Cola / Zero" } },
+                    { id: 58, price: 1.50, name: { el: "Ice Tea - ροδάκινο / λεμόνι", en: "Ice Tea Peach / Lemon", de: "Eistee Pfirsich / Zitrone", fr: "Thé Glacé Pêche / Citron", pl: "Herbata Mrożona Brzoskwinia / Cytryna" } },
+                    { id: 59, price: 1.50, name: { el: "Φλωράλ", en: "Floral Soda", de: "Floral Soda", fr: "Floral Soda", pl: "Napój Floral" } },
+                    { id: 60, price: 0.50, name: { el: "Νερό 750 ml", en: "Water 750ml", de: "Wasser 750ml", fr: "Eau 750ml", pl: "Woda 750ml" } },
+                    { id: 61, price: 1.00, name: { el: "Νερό 1 L", en: "Water 1L", de: "Wasser 1L", fr: "Eau 1L", pl: "Woda 1L" } },
+                    { id: 62, price: 2.00, name: { el: "Ανθρακούχο νερό", en: "Sparkling Water", de: "Wasser mit Kohlensäure", fr: "Eau Pétillante", pl: "Woda Gazowana" } }
+                ]
+            },
+            coffee: {
+                catNames: { el: "☕ Καφέδες", en: "☕ Coffee & Drinks", de: "☕ Kaffee & Getränke", fr: "☕ Café & Boissons", pl: "☕ Kawa i Napoje" },
+                items: [
+                    { id: 63, price: 1.20, name: { el: "Ελληνικός μονός", en: "Greek Coffee Single", de: "Griechischer Kaffee Einfach", fr: "Café Grec Simple", pl: "Kawa Grecka Pojedyncza" } },
+                    { id: 64, price: 2.00, name: { el: "Ελληνικός διπλός", en: "Greek Coffee Double", de: "Griechischer Kaffee Doppelt", fr: "Café Grec Double", pl: "Kawa Grecka Podwójna" } },
+                    { id: 65, price: 2.00, name: { el: "Νες - Φραπέ", en: "Nescafe / Frappe", de: "Nescafe / Frappe", fr: "Nescafé / Frappé", pl: "Nescafe / Frappe" } },
+                    { id: 66, price: 2.00, name: { el: "Καφές Φίλτρου", en: "Filter Coffee", de: "Filterkaffee", fr: "Café Filtre", pl: "Kawa Przelewowa" } },
+                    { id: 67, price: 2.30, name: { el: "Espresso μονό", en: "Espresso Single", de: "Espresso Einfach", fr: "Espresso Simple", pl: "Espresso Pojedyncze" } },
+                    { id: 68, price: 3.30, name: { el: "Espresso διπλό", en: "Espresso Double", de: "Espresso Doppelt", fr: "Espresso Double", pl: "Espresso Podwójne" } },
+                    { id: 69, price: 2.50, name: { el: "Freddo Espresso", en: "Freddo Espresso", de: "Freddo Espresso", fr: "Freddo Espresso", pl: "Freddo Espresso" } },
+                    { id: 70, price: 2.50, name: { el: "Freddo Cappuccino", en: "Freddo Cappuccino", de: "Freddo Cappuccino", fr: "Freddo Cappuccino", pl: "Freddo Cappuccino" } },
+                    { id: 71, price: 2.00, name: { el: "Cappuccino μονό", en: "Cappuccino Single", de: "Cappuccino Einfach", fr: "Cappuccino Simple", pl: "Cappuccino Pojedyncze" } },
+                    { id: 72, price: 2.80, name: { el: "Cappuccino διπλό", en: "Cappuccino Double", de: "Cappuccino Doppelt", fr: "Cappuccino Double", pl: "Cappuccino Podwójne" } },
+                    { id: 73, price: 3.00, name: { el: "Σοκολάτα Ζεστή - Κρύα", en: "Hot / Cold Chocolate", de: "Heiße / Kalte Schokolade", fr: "Chocolat Chaud / Froid", pl: "Czekolada na Gorąco / Zimno" } },
+                    { id: 74, price: 2.00, name: { el: "Αφεψήματα", en: "Herbal Tea", de: "Kräutertee", fr: "Tisane", pl: "Herbata Ziołowa" } }
+                ]
+            }
+        };
+
         let cart = {};
 
-        function updateQty(id, delta) {
-            if (!cart[id]) cart[id] = 0;
-            cart[id] += delta;
-            if (cart[id] < 0) cart[id] = 0;
-            document.getElementById(`qty-${id}`).innerText = cart[id];
+        function setLanguage(lang, btnElem) {
+            currentLang = lang;
+            
+            // Active state flags
+            document.querySelectorAll('.flag-btn').forEach(btn => btn.classList.remove('active'));
+            if (btnElem) btnElem.classList.add('active');
+
+            // UI Texts
+            const t = i18nUI[lang];
+            document.getElementById('ui-subtitle').innerText = t.subtitle;
+            document.getElementById('ui-location').innerText = t.location;
+            document.getElementById('ui-lbl-table').innerText = t.table;
+            document.getElementById('ui-lbl-name').innerText = t.name;
+            document.getElementById('ui-lbl-sendtype').innerText = t.sendtype;
+            document.getElementById('ui-choose-cat').innerText = t.chooseCat;
+            document.getElementById('ui-btn-back').innerText = t.back;
+            document.getElementById('ui-summary-title').innerText = t.summaryTitle;
+            document.getElementById('ui-cart-total').innerText = t.cartTotal;
+            document.getElementById('ui-btn-send').innerText = t.btnSend;
+
+            // Categories Buttons
+            document.getElementById('cat-salads').innerText = menuData.salads.catNames[lang].replace('🥗 ', '');
+            document.getElementById('cat-appetizers').innerText = menuData.appetizers.catNames[lang].replace('🧆 ', '');
+            document.getElementById('cat-omelettes').innerText = menuData.omelettes.catNames[lang].replace('🍳 ', '');
+            document.getElementById('cat-grill').innerText = menuData.grill.catNames[lang].replace('🥩 ', '');
+            document.getElementById('cat-spit').innerText = menuData.spit.catNames[lang].replace('🍖 ', '');
+            document.getElementById('cat-drinks').innerText = menuData.drinks.catNames[lang].replace('🍺 ', '');
+            document.getElementById('cat-coffee').innerText = menuData.coffee.catNames[lang].replace('☕ ', '');
+
+            if (currentCatKey) {
+                showCategory(currentCatKey);
+            }
+            renderSummary();
+        }
+
+        function showHome() {
+            currentCatKey = '';
+            document.getElementById('categoryView').classList.remove('active');
+            document.getElementById('homeView').classList.add('active');
+            renderSummary();
+            window.scrollTo(0,0);
+        }
+
+        function showCategory(catKey) {
+            currentCatKey = catKey;
+            const cat = menuData[catKey];
+            document.getElementById('currentCategoryTitle').innerText = cat.catNames[currentLang];
+            
+            const container = document.getElementById('categoryItemsContainer');
+            container.innerHTML = '';
+
+            cat.items.forEach(item => {
+                const qty = cart[item.id] ? cart[item.id].qty : 0;
+                const itemName = item.name[currentLang];
+                container.innerHTML += `
+                    <div class="menu-item">
+                        <div class="item-info">
+                            <div class="item-title">${itemName}</div>
+                            <div class="item-price">${item.price.toFixed(2)} €</div>
+                        </div>
+                        <div class="item-controls">
+                            <button class="btn-qty" onclick="updateQty(${item.id}, ${item.price}, -1)">-</button>
+                            <span class="qty-num" id="qty-${item.id}">${qty}</span>
+                            <button class="btn-qty" onclick="updateQty(${item.id}, ${item.price}, 1)">+</button>
+                        </div>
+                    </div>
+                `;
+            });
+
+            document.getElementById('homeView').classList.remove('active');
+            document.getElementById('categoryView').classList.add('active');
+            window.scrollTo(0,0);
+        }
+
+        function updateQty(id, price, delta) {
+            if (!cart[id]) cart[id] = { qty: 0, price: price };
+            cart[id].qty += delta;
+
+            if (cart[id].qty <= 0) {
+                delete cart[id];
+            }
+
+            const qtyElem = document.getElementById(`qty-${id}`);
+            if (qtyElem) {
+                qtyElem.innerText = cart[id] ? cart[id].qty : 0;
+            }
+
             calculateTotal();
+            renderSummary();
+        }
+
+        function getItemObj(id) {
+            for (let catKey in menuData) {
+                let found = menuData[catKey].items.find(i => i.id === id);
+                if (found) return found;
+            }
+            return null;
         }
 
         function calculateTotal() {
             let total = 0;
-            document.querySelectorAll('.menu-item').forEach(item => {
-                const id = item.getAttribute('data-id');
-                const price = parseFloat(item.getAttribute('data-price'));
-                total += price * (cart[id] || 0);
-            });
+            for (let id in cart) {
+                total += cart[id].price * cart[id].qty;
+            }
             document.getElementById('totalPrice').innerText = total.toFixed(2) + ' €';
         }
 
+        function renderSummary() {
+            const container = document.getElementById('summaryContent');
+            const t = i18nUI[currentLang];
+            let hasItems = false;
+            let html = '<ul class="summary-list">';
+
+            for (let id in cart) {
+                if (cart[id].qty > 0) {
+                    hasItems = true;
+                    const itemObj = getItemObj(parseInt(id));
+                    const itemName = itemObj ? itemObj.name[currentLang] : '';
+                    const itemTotal = cart[id].price * cart[id].qty;
+
+                    html += `
+                        <li class="summary-item">
+                            <div>
+                                <b>${itemName}</b><br>
+                                <span style="font-size:0.85rem; color:var(--accent);">${cart[id].price.toFixed(2)}€ x ${cart[id].qty} = ${itemTotal.toFixed(2)}€</span>
+                            </div>
+                            <div class="item-controls">
+                                <button class="btn-qty" onclick="updateQty(${id}, ${cart[id].price}, -1)">-</button>
+                                <span class="qty-num">${cart[id].qty}</span>
+                                <button class="btn-qty" onclick="updateQty(${id}, ${cart[id].price}, 1)">+</button>
+                            </div>
+                        </li>
+                    `;
+                }
+            }
+            html += '</ul>';
+
+            if (hasItems) {
+                container.innerHTML = html;
+            } else {
+                container.innerHTML = `<div style="color:var(--text-dark); opacity:0.7; font-size:0.95rem; text-align:center; padding:1rem 0;">${t.summaryEmpty}</div>`;
+            }
+        }
+
         function processOrder() {
+            const t = i18nUI[currentLang];
             const tableNo = document.getElementById('tableNo').value.trim();
             const name = document.getElementById('customerName').value.trim();
             const orderType = document.getElementById('orderType').value;
 
             if (!tableNo) {
-                alert('Παρακαλούμε συμπληρώστε τον αριθμό τραπεζιού!');
+                alert(t.alertTable);
+                document.getElementById('tableNo').focus();
                 return;
             }
 
             let hasItems = false;
             let totalSum = 0;
 
-            let orderText = `🌿 ΠΛΑΤΙΑ ΣΤΡΑΤΑ - Τραπέζι No ${tableNo}\n`;
-            if (name) orderText += `👤 Πελάτης: ${name}\n`;
+            let orderText = `${t.headerOrder} ${tableNo}\n`;
+            if (name) orderText += `${t.headerCustomer} ${name}\n`;
             orderText += `------------------------------\n`;
 
-            document.querySelectorAll('.menu-item').forEach(item => {
-                const id = item.getAttribute('data-id');
-                const itemName = item.getAttribute('data-name');
-                const price = parseFloat(item.getAttribute('data-price'));
-                const qty = cart[id] || 0;
-
-                if (qty > 0) {
+            for (let id in cart) {
+                if (cart[id].qty > 0) {
                     hasItems = true;
-                    const itemTotal = price * qty;
+                    const itemObj = getItemObj(parseInt(id));
+                    const itemName = itemObj ? itemObj.name[currentLang] : '';
+                    const itemTotal = cart[id].price * cart[id].qty;
                     totalSum += itemTotal;
-                    orderText += `• ${qty}x ${itemName} (${itemTotal.toFixed(2)}€)\n`;
+                    orderText += `• ${cart[id].qty}x ${itemName} (${itemTotal.toFixed(2)}€)\n`;
                 }
-            });
+            }
 
             if (!hasItems) {
-                alert('Δεν έχετε επιλέξει κανένα προϊόν!');
+                alert(t.alertItems);
                 return;
             }
 
             orderText += `------------------------------\n`;
-            orderText += `💰 Σύνολο: ${totalSum.toFixed(2)} €`;
+            orderText += `💰 Total: ${totalSum.toFixed(2)} €`;
 
             const encodedText = encodeURIComponent(orderText);
 
-            if (orderType === 'viber') {
-                // 1. Αντιγραφή κειμένου
-                if (navigator.clipboard) {
-                    navigator.clipboard.writeText(orderText);
-                }
-                // 2. Εμφάνιση παραθύρου οδηγιών & ανοίγματος viber.click
-                document.getElementById('viberModal').style.display = 'flex';
-            } else if (orderType === 'sms') {
-                // Αποστολή SMS
+            if (orderType === 'sms') {
                 window.location.href = `sms:+${OWNER_PHONE}?body=${encodedText}`;
             } else {
-                // Αποστολή WhatsApp
                 window.open(`https://wa.me/${OWNER_PHONE}?text=${encodedText}`, '_blank');
             }
         }
 
-        function closeModal() {
-            document.getElementById('viberModal').style.display = 'none';
-        }
-
         document.getElementById('orderType').addEventListener('change', function(e) {
             const btn = document.getElementById('sendBtn');
-            if (e.target.value === 'whatsapp') {
-                btn.className = 'btn-send btn-whatsapp';
-            } else if (e.target.value === 'sms') {
+            if (e.target.value === 'sms') {
                 btn.className = 'btn-send btn-sms';
             } else {
-                btn.className = 'btn-send btn-viber';
+                btn.className = 'btn-send btn-whatsapp';
             }
         });
     </script>
