@@ -3,18 +3,19 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Πλατιά Στράτα - Ψηφιακή Παραγγελία</title>
+    <title>Πλατιά Στράτα - Ψηφιακός Κατάλογος & Παραγγελία</title>
     <link href="https://fonts.googleapis.com/css2?family=GFS+Didot&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --primary: #2c4c38;
-            --accent: #b85b34;
-            --bg: #fcf8f2;
+            --primary: #2c4c38;      /* Βαθύ πράσινο της ελιάς */
+            --accent: #b85b34;       /* Terracotta / Πήλινο */
+            --bg: #fcf8f2;           /* Χρώμα παπύρου / ζαχαρί */
             --card: #ffffff;
             --border: #e2d7c5;
             --text-dark: #2b2b2b;
             --viber-color: #7360f2;
             --whatsapp-color: #25D366;
+            --sms-color: #007aff;
         }
 
         * { box-sizing: border-box; margin: 0; padding: 0; }
@@ -26,12 +27,14 @@
             text-align: center;
             padding: 2rem 1rem 1.2rem;
             border-bottom: 4px solid var(--accent);
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
         }
 
-        header h1 { font-family: 'GFS Didot', serif; font-size: 2.3rem; color: #f7e7ce; }
-        header p { font-size: 0.9rem; opacity: 0.9; }
+        header h1 { font-family: 'GFS Didot', serif; font-size: 2.5rem; color: #f7e7ce; letter-spacing: 1px; }
+        header p.subtitle { font-size: 1rem; opacity: 0.9; margin-top: 0.2rem; }
+        header p.info { font-size: 0.85rem; opacity: 0.8; margin-top: 0.3rem; }
 
-        .container { max-width: 800px; margin: 0 auto; padding: 1rem; }
+        .container { max-width: 800px; margin: 0 auto; padding: 1.2rem 1rem; }
 
         .table-card {
             background: var(--card);
@@ -39,6 +42,17 @@
             border-radius: 12px;
             padding: 1.2rem;
             margin-bottom: 1.5rem;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .form-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+        }
+
+        @media (max-width: 500px) {
+            .form-grid { grid-template-columns: 1fr; }
         }
 
         .form-group label {
@@ -55,17 +69,23 @@
             border: 1px solid var(--border);
             border-radius: 8px;
             font-size: 1rem;
-            margin-bottom: 0.8rem;
+            outline: none;
             background: #fff;
         }
 
         .category-title {
             font-family: 'GFS Didot', serif;
             color: var(--primary);
-            font-size: 1.6rem;
-            margin: 1.8rem 0 0.8rem;
+            font-size: 1.7rem;
+            margin: 2rem 0 1rem;
             border-bottom: 2px solid var(--accent);
             padding-bottom: 0.3rem;
+        }
+
+        .menu-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 0.8rem;
         }
 
         .menu-item {
@@ -73,29 +93,34 @@
             border: 1px solid var(--border);
             border-radius: 10px;
             padding: 0.9rem 1.1rem;
-            margin-bottom: 0.6rem;
             display: flex;
             justify-content: space-between;
             align-items: center;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.02);
         }
 
-        .item-title { font-weight: 700; font-size: 1rem; }
-        .item-price { color: var(--accent); font-weight: 700; }
+        .item-info { flex: 1; padding-right: 0.8rem; }
+        .item-title { font-weight: 700; font-size: 1.05rem; }
+        .item-price { color: var(--accent); font-weight: 700; font-size: 1rem; margin-top: 0.2rem; }
 
         .item-controls { display: flex; align-items: center; gap: 0.6rem; }
+
         .btn-qty {
             background: var(--primary);
             color: #fff;
             border: none;
-            width: 32px;
-            height: 32px;
+            width: 34px;
+            height: 34px;
             border-radius: 50%;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
             font-weight: bold;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
         }
 
-        .qty-num { font-weight: 700; min-width: 20px; text-align: center; }
+        .qty-num { font-weight: 700; font-size: 1.1rem; min-width: 24px; text-align: center; }
 
         .cart-bar {
             position: fixed;
@@ -110,7 +135,8 @@
             z-index: 1000;
         }
 
-        .cart-total-price { font-size: 1.3rem; font-weight: 700; color: #f7e7ce; }
+        .cart-total-label { font-size: 0.85rem; opacity: 0.85; }
+        .cart-total-price { font-size: 1.4rem; font-weight: 700; color: #f7e7ce; }
 
         .btn-send {
             color: #fff;
@@ -121,10 +147,12 @@
             font-weight: 700;
             cursor: pointer;
         }
+
         .btn-viber { background: var(--viber-color); }
         .btn-whatsapp { background: var(--whatsapp-color); }
+        .btn-sms { background: var(--sms-color); }
 
-        /* MODAL VIBER INSTRUCTIONS */
+        /* Modal Viber */
         .modal-overlay {
             display: none;
             position: fixed;
@@ -147,7 +175,6 @@
 
         .modal-box h3 { color: var(--viber-color); margin-bottom: 0.8rem; }
         .modal-box p { font-size: 0.95rem; margin-bottom: 1rem; line-height: 1.4; }
-        
         .step-badge {
             background: #f0ebff;
             color: var(--viber-color);
@@ -157,7 +184,6 @@
             display: inline-block;
             margin-bottom: 1rem;
         }
-
         .modal-action-btn {
             display: block;
             width: 100%;
@@ -177,75 +203,118 @@
 
     <header>
         <h1>Πλατιά Στράτα</h1>
-        <p>Έξω Μουλιανά Σητείας | Ψηφιακή Παραγγελία</p>
+        <p class="subtitle">Παραδοσιακό Καφενείο - Ταβέρνα - Ρακάδικο</p>
+        <p class="info">Έξω Μουλιανά Σητείας | Ψηφιακή Παραγγελία</p>
     </header>
 
     <div class="container">
+        <!-- Στοιχεία Τραπεζιού & Επιλογή Αποστολής -->
         <div class="table-card">
-            <div class="form-group">
-                <label for="tableNo">Αριθμός Τραπεζιού *</label>
-                <input type="number" id="tableNo" placeholder="π.χ. 4" required>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label for="tableNo">Αριθμός Τραπεζιού *</label>
+                    <input type="number" id="tableNo" placeholder="π.χ. 4" min="1" required>
+                </div>
+                <div class="form-group">
+                    <label for="customerName">Όνομα Πελάτη (Προαιρετικό)</label>
+                    <input type="text" id="customerName" placeholder="π.χ. Γιώργος">
+                </div>
             </div>
-            <div class="form-group">
-                <label for="customerName">Όνομα Πελάτη (Προαιρετικό)</label>
-                <input type="text" id="customerName" placeholder="π.χ. Γιώργος">
-            </div>
-            <div class="form-group">
+            <div class="form-group" style="margin-top: 0.8rem;">
                 <label for="orderType">Τρόπος Αποστολής *</label>
                 <select id="orderType">
-                    <option value="viber">Viber (Έξυπνη Αποστολή)</option>
+                    <option value="viber">Viber</option>
                     <option value="whatsapp">WhatsApp</option>
+                    <option value="sms">SMS (Μήνυμα)</option>
                 </select>
             </div>
         </div>
 
         <!-- ΣΑΛΑΤΕΣ -->
-        <div class="category-title">🥗 Σαλάτες & Ορεκτικά</div>
-        <div class="menu-item" data-id="1" data-name="Χωριάτικη" data-price="6.00">
-            <div><div class="item-title">Χωριάτικη</div><div class="item-price">6,00 €</div></div>
-            <div class="item-controls"><button class="btn-qty" onclick="updateQty('1', -1)">-</button><span class="qty-num" id="qty-1">0</span><button class="btn-qty" onclick="updateQty('1', 1)">+</button></div>
+        <div class="category-title">🥗 Σαλάτες</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-id="1" data-name="Χωριάτικη" data-price="6.00">
+                <div class="item-info"><div class="item-title">Χωριάτικη</div><div class="item-price">6,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('1', -1)">-</button><span class="qty-num" id="qty-1">0</span><button class="btn-qty" onclick="updateQty('1', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="2" data-name="Σύγγρειω" data-price="4.00">
+                <div class="item-info"><div class="item-title">Σύγγρειω</div><div class="item-price">4,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('2', -1)">-</button><span class="qty-num" id="qty-2">0</span><button class="btn-qty" onclick="updateQty('2', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="3" data-name="Λάχανο - Καρότο" data-price="4.00">
+                <div class="item-info"><div class="item-title">Λάχανο - Καρότο</div><div class="item-price">4,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('3', -1)">-</button><span class="qty-num" id="qty-3">0</span><button class="btn-qty" onclick="updateQty('3', 1)">+</button></div>
+            </div>
         </div>
-        <div class="menu-item" data-id="2" data-name="Ξύγαλο" data-price="5.50">
-            <div><div class="item-title">Ξύγαλο</div><div class="item-price">5,50 €</div></div>
-            <div class="item-controls"><button class="btn-qty" onclick="updateQty('2', -1)">-</button><span class="qty-num" id="qty-2">0</span><button class="btn-qty" onclick="updateQty('2', 1)">+</button></div>
+
+        <!-- ΟΡΕΚΤΙΚΑ -->
+        <div class="category-title">🧆 Ορεκτικά & Μεζέδες</div>
+        <div class="menu-grid">
+            <div class="menu-item" data-id="4" data-name="Τζατζίκι" data-price="4.50">
+                <div class="item-info"><div class="item-title">Τζατζίκι</div><div class="item-price">4,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('4', -1)">-</button><span class="qty-num" id="qty-4">0</span><button class="btn-qty" onclick="updateQty('4', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="5" data-name="Ξύγαλο" data-price="5.50">
+                <div class="item-info"><div class="item-title">Ξύγαλο</div><div class="item-price">5,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('5', -1)">-</button><span class="qty-num" id="qty-5">0</span><button class="btn-qty" onclick="updateQty('5', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="8" data-name="Ντάκος" data-price="5.50">
+                <div class="item-info"><div class="item-title">Ντάκος</div><div class="item-price">5,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('8', -1)">-</button><span class="qty-num" id="qty-8">0</span><button class="btn-qty" onclick="updateQty('8', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="11" data-name="Πατάτες τηγανιτές" data-price="5.50">
+                <div class="item-info"><div class="item-title">Πατάτες τηγανιτές</div><div class="item-price">5,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('11', -1)">-</button><span class="qty-num" id="qty-11">0</span><button class="btn-qty" onclick="updateQty('11', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="13" data-name="Στάκα με αυγά" data-price="5.00">
+                <div class="item-info"><div class="item-title">Στάκα με αυγά</div><div class="item-price">5,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('13', -1)">-</button><span class="qty-num" id="qty-13">0</span><button class="btn-qty" onclick="updateQty('13', 1)">+</button></div>
+            </div>
         </div>
 
         <!-- ΤΗΣ ΩΡΑΣ -->
         <div class="category-title">🥩 Της Ώρας</div>
-        <div class="menu-item" data-id="3" data-name="Σουβλάκι χοιρινό (τεμ.)" data-price="2.20">
-            <div><div class="item-title">Σουβλάκι χοιρινό (τεμάχιο)</div><div class="item-price">2,20 €</div></div>
-            <div class="item-controls"><button class="btn-qty" onclick="updateQty('3', -1)">-</button><span class="qty-num" id="qty-3">0</span><button class="btn-qty" onclick="updateQty('3', 1)">+</button></div>
-        </div>
-        <div class="menu-item" data-id="4" data-name="Παιδάκια αρνίσια μερίδα" data-price="14.00">
-            <div><div class="item-title">Παιδάκια αρνίσια μερίδα</div><div class="item-price">14,00 €</div></div>
-            <div class="item-controls"><button class="btn-qty" onclick="updateQty('4', -1)">-</button><span class="qty-num" id="qty-4">0</span><button class="btn-qty" onclick="updateQty('4', 1)">+</button></div>
+        <div class="menu-grid">
+            <div class="menu-item" data-id="25" data-name="Σουβλάκι χοιρινό (τεμ.)" data-price="2.20">
+                <div class="item-info"><div class="item-title">Σουβλάκι χοιρινό (τεμάχιο)</div><div class="item-price">2,20 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('25', -1)">-</button><span class="qty-num" id="qty-25">0</span><button class="btn-qty" onclick="updateQty('25', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="36" data-name="Παιδάκια αρνίσια μερίδα" data-price="14.00">
+                <div class="item-info"><div class="item-title">Παιδάκια αρνίσια μερίδα</div><div class="item-price">14,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('36', -1)">-</button><span class="qty-num" id="qty-36">0</span><button class="btn-qty" onclick="updateQty('36', 1)">+</button></div>
+            </div>
         </div>
 
         <!-- ΠΟΤΑ -->
         <div class="category-title">🍺 Ποτά & Ρακές</div>
-        <div class="menu-item" data-id="5" data-name="Ρακή Καραφάκι Διπλό" data-price="5.00">
-            <div><div class="item-title">Ρακή Καραφάκι Διπλό</div><div class="item-price">5,00 €</div></div>
-            <div class="item-controls"><button class="btn-qty" onclick="updateQty('5', -1)">-</button><span class="qty-num" id="qty-5">0</span><button class="btn-qty" onclick="updateQty('5', 1)">+</button></div>
+        <div class="menu-grid">
+            <div class="menu-item" data-id="50" data-name="Ρακή Καραφάκι Διπλό" data-price="5.00">
+                <div class="item-info"><div class="item-title">Ρακή Καραφάκι Διπλό</div><div class="item-price">5,00 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('50', -1)">-</button><span class="qty-num" id="qty-50">0</span><button class="btn-qty" onclick="updateQty('50', 1)">+</button></div>
+            </div>
+            <div class="menu-item" data-id="47" data-name="Μπίρα Mythos / Alfa" data-price="3.50">
+                <div class="item-info"><div class="item-title">Μπίρα Mythos / Alfa</div><div class="item-price">3,50 €</div></div>
+                <div class="item-controls"><button class="btn-qty" onclick="updateQty('47', -1)">-</button><span class="qty-num" id="qty-47">0</span><button class="btn-qty" onclick="updateQty('47', 1)">+</button></div>
+            </div>
         </div>
     </div>
 
     <!-- Μπάρα Παραγγελίας -->
     <div class="cart-bar">
         <div>
-            <div style="font-size:0.8rem; opacity:0.8;">Σύνολο:</div>
+            <div class="cart-total-label">Σύνολο Παραγγελίας:</div>
             <div class="cart-total-price" id="totalPrice">0.00 €</div>
         </div>
         <button class="btn-send btn-viber" id="sendBtn" onclick="processOrder()">📲 Αποστολή</button>
     </div>
 
-    <!-- MODAL VIBER -->
+    <!-- Modal Viber -->
     <div class="modal-overlay" id="viberModal">
         <div class="modal-box">
             <h3>💜 Αποστολή μέσω Viber</h3>
             <div class="step-badge">✅ Η παραγγελία αντιγράφηκε!</div>
-            <p>Πατήστε το παρακάτω κουμπί για να ανοίξει το Viber, και στη συνέχεια κάντε <b>«Επικόλληση» (Paste)</b> στη συνομιλία με τον υπεύθυνο (<b>6976128413</b>).</p>
-            
-            <a href="viber://chat?number=%2B306976128413" class="modal-action-btn" style="background: var(--viber-color);">1. Άνοιγμα Viber Εφαρμογής</a>
+            <p>Πατήστε το κουμπί για να ανοίξει η συνομιλία στο Viber και μετά κάντε <b>«Επικόλληση» (Paste)</b> στο πεδίο κειμένου.</p>
+            <a href="https://viber.click/306976128413" target="_blank" class="modal-action-btn" style="background: var(--viber-color);">1. Άνοιγμα Viber Chat (6976128413)</a>
             <button onclick="closeModal()" class="modal-action-btn" style="background: #666;">Κλείσιμο</button>
         </div>
     </div>
@@ -285,8 +354,7 @@
             let hasItems = false;
             let totalSum = 0;
 
-            let orderText = `🌿 ΝΕΑ ΠΑΡΑΓΓΕΛΙΑ - ΠΛΑΤΙΑ ΣΤΡΑΤΑ\n`;
-            orderText += `📍 Τραπέζι: No ${tableNo}\n`;
+            let orderText = `🌿 ΠΛΑΤΙΑ ΣΤΡΑΤΑ - Τραπέζι No ${tableNo}\n`;
             if (name) orderText += `👤 Πελάτης: ${name}\n`;
             orderText += `------------------------------\n`;
 
@@ -312,19 +380,20 @@
             orderText += `------------------------------\n`;
             orderText += `💰 Σύνολο: ${totalSum.toFixed(2)} €`;
 
+            const encodedText = encodeURIComponent(orderText);
+
             if (orderType === 'viber') {
-                // 1. Αυτόματη αντιγραφή στο Πρόχειρο (Clipboard)
-                navigator.clipboard.writeText(orderText).then(() => {
-                    // 2. Εμφάνιση Modal Οδηγιών
-                    document.getElementById('viberModal').style.display = 'flex';
-                }).catch(err => {
-                    // Fallback για παλιά κινητά
-                    alert("Η παραγγελία σας:\n\n" + orderText);
-                    window.location.href = `viber://chat?number=%2B${OWNER_PHONE}`;
-                });
+                // 1. Αντιγραφή κειμένου
+                if (navigator.clipboard) {
+                    navigator.clipboard.writeText(orderText);
+                }
+                // 2. Εμφάνιση παραθύρου οδηγιών & ανοίγματος viber.click
+                document.getElementById('viberModal').style.display = 'flex';
+            } else if (orderType === 'sms') {
+                // Αποστολή SMS
+                window.location.href = `sms:+${OWNER_PHONE}?body=${encodedText}`;
             } else {
-                // WhatsApp Link
-                const encodedText = encodeURIComponent(orderText);
+                // Αποστολή WhatsApp
                 window.open(`https://wa.me/${OWNER_PHONE}?text=${encodedText}`, '_blank');
             }
         }
@@ -337,6 +406,8 @@
             const btn = document.getElementById('sendBtn');
             if (e.target.value === 'whatsapp') {
                 btn.className = 'btn-send btn-whatsapp';
+            } else if (e.target.value === 'sms') {
+                btn.className = 'btn-send btn-sms';
             } else {
                 btn.className = 'btn-send btn-viber';
             }
